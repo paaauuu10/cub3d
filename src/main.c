@@ -6,11 +6,11 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:30:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/22 09:48:37 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/22 13:31:50 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../include/cub3d.h"
 /*
 int	add_lines(t_map *game, char *line)
 {
@@ -62,13 +62,13 @@ int	map_reading(t_map *game, char **s)
 	return (1);
 }*/
 
-int	deal_key(int key, t_map *mapa)
+int	deal_key(int key, t_map *game)
 {
 	int	x;
 	int	y;
 	
-	x = mapa->x;
-	y = mapa->y;
+	x = game->x;
+	y = game->y;
 	if (key == 65307)
 	{
 		printf("Why are you scared?\n");
@@ -79,35 +79,36 @@ int	deal_key(int key, t_map *mapa)
 //		left(game, key, x, y);
 	{
 //		printf("left\n");
-		mlx_pixel_put(mapa->mlx_p, mapa->win_p, x - 10, y, 0xFFFFFF);
-		mapa->x -= 10;
+		mlx_pixel_put(game->mlx_p, game->win_p, x - 10, y, 0xFFFFFF);
+		game->x -= 10;
 	}
 	if (key == 65363 || key == 100)
 //		right(game, x, y);
 	{
 	//	printf("right\n");
-		mlx_pixel_put(mapa->mlx_p, mapa->win_p, x + 10, y, 0xFFFFFF);
-		mapa->x += 10;
+		mlx_pixel_put(game->mlx_p, game->win_p, x + 10, y, 0xFFFFFF);
+		game->x += 10;
 	}
 	if (key == 65362 || key == 119)
 //		up(game, x, y);	
 	{
 	//	printf("up\n");
-		mlx_pixel_put(mapa->mlx_p, mapa->win_p, x, y - 10, 0xFFFFFF);
-		mapa->y -= 10;
+		mlx_pixel_put(game->mlx_p, game->win_p, x, y - 10, 0xFFFFFF);
+		game->y -= 10;
 	}
 	if (key == 65364 || key == 115)
 //		down(game, key, x, y);
 	{
 	//	printf("down\n");
-		mlx_pixel_put(mapa->mlx_p, mapa->win_p, x, y + 10, 0xFFFFFF);
-		mapa->y += 10;
+		mlx_pixel_put(game->mlx_p, game->win_p, x, y + 10, 0xFFFFFF);
+		game->y += 10;
 	}
 	return (0);
 }
 
 int	mouse_hook(t_map *game)
 {
+	(void)game;
 	exit(0);
 	return (0);
 }
@@ -115,17 +116,19 @@ int	mouse_hook(t_map *game)
 
 int	main(int argc, char **argv)
 {
-	t_map	mapa;
+	t_map	game;
 
-	mapa.x = 1000;
-	mapa.y = 500;
-	mapa.win_p = NULL;
-	mapa.mlx_p = NULL;	
-	mapa.mlx_p = mlx_init();
-	mapa.win_p = mlx_new_window(mapa.mlx_p, 2048, 1024, "cub3d");
-	mlx_pixel_put(mapa.mlx_p, mapa.win_p, 1024, 512, 0xFFFFFF);
-	mlx_key_hook(mapa.win_p, deal_key, (void *)&mapa);
-	mlx_hook(mapa.win_p, 17, 0, mouse_hook, (void *)&mapa);
-	mlx_loop(mapa.mlx_p);
+	(void)argc;
+	(void)argv;
+	game.x = 1000;
+	game.y = 500;
+	game.win_p = NULL;
+	game.mlx_p = NULL;	
+	game.mlx_p = mlx_init();
+	game.win_p = mlx_new_window(game.mlx_p, 2048, 1024, "cub3d");
+	mlx_pixel_put(game.mlx_p, game.win_p, 1024, 512, 0xFFFFFF);
+	mlx_key_hook(game.win_p, deal_key, (void *)&game);
+	mlx_hook(game.win_p, 17, 0, mouse_hook, (void *)&game);
+	mlx_loop(game.mlx_p);
 	return (0);	
 }
