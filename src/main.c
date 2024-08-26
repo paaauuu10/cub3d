@@ -6,12 +6,26 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:30:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/22 13:31:50 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:08:22 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-/*
+
+int	calc_width(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s || s[0] == '\0')
+		return (0);
+	while (s[i])
+		i++;
+	if (s[i - 1] == '\n')
+		i--;
+	return (i);
+}
+
 int	add_lines(t_map *game, char *line)
 {
 	char	**temp;
@@ -21,7 +35,7 @@ int	add_lines(t_map *game, char *line)
 	game->height++;
 	temp = (char **)malloc((game->height + 1) * sizeof(char *));
 	if (!temp)
-		ft_exit(game);
+		exit(0);
 	temp[game->height] = NULL;
 	while (i < game->height - 1)
 	{
@@ -41,7 +55,7 @@ int	map_reading(t_map *game, char **s)
 	char	*line;
 
 	game->i = 0;
-	game->fd = open (s[1], O_RDONLY);
+	game->fd = open(s[1], O_RDONLY);
 	if (game->fd < 0)
 		return (0);
 	while (1)
@@ -55,12 +69,12 @@ int	map_reading(t_map *game, char **s)
 	if (!game->map)
 	{
 		ft_printf("Error\nI need a valid map\n");
-		ft_exit(game);
+		exit(0);
 	}
 	while (game->map[game->i])
-		game->width = calc_width(game->map[game->i++], game);
+		game->width = calc_width(game->map[game->i++]);
 	return (1);
-}*/
+}
 
 int	deal_key(int key, t_map *game)
 {
@@ -78,28 +92,24 @@ int	deal_key(int key, t_map *game)
 	if (key == 65361 || key == 97)
 //		left(game, key, x, y);
 	{
-//		printf("left\n");
 		mlx_pixel_put(game->mlx_p, game->win_p, x - 10, y, 0xFFFFFF);
 		game->x -= 10;
 	}
 	if (key == 65363 || key == 100)
 //		right(game, x, y);
 	{
-	//	printf("right\n");
 		mlx_pixel_put(game->mlx_p, game->win_p, x + 10, y, 0xFFFFFF);
 		game->x += 10;
 	}
 	if (key == 65362 || key == 119)
 //		up(game, x, y);	
 	{
-	//	printf("up\n");
 		mlx_pixel_put(game->mlx_p, game->win_p, x, y - 10, 0xFFFFFF);
 		game->y -= 10;
 	}
 	if (key == 65364 || key == 115)
 //		down(game, key, x, y);
 	{
-	//	printf("down\n");
 		mlx_pixel_put(game->mlx_p, game->win_p, x, y + 10, 0xFFFFFF);
 		game->y += 10;
 	}
@@ -118,17 +128,19 @@ int	main(int argc, char **argv)
 {
 	t_map	game;
 
-	(void)argc;
-	(void)argv;
 	game.x = 1000;
 	game.y = 500;
 	game.win_p = NULL;
-	game.mlx_p = NULL;	
+	game.mlx_p = NULL;
+	ft_bzero(&game, sizeof(t_map));
+	map_reading(&game, argv);
+	parser(&game);
 	game.mlx_p = mlx_init();
 	game.win_p = mlx_new_window(game.mlx_p, 2048, 1024, "cub3d");
 	mlx_pixel_put(game.mlx_p, game.win_p, 1024, 512, 0xFFFFFF);
 	mlx_key_hook(game.win_p, deal_key, (void *)&game);
 	mlx_hook(game.win_p, 17, 0, mouse_hook, (void *)&game);
 	mlx_loop(game.mlx_p);
+	(void)argc;
 	return (0);	
 }
