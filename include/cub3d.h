@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/22 13:11:47 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:10:07 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ typedef struct s_map
 	int		width;
 	int		height;
 	int		param;
+	int		fd;
+	int		i;
+	int		per;
 	void	*mlx_p;
 	void	*win_p;
 	char	**map;
@@ -40,6 +43,8 @@ typedef struct s_map
 	void	*e_wall;
 	void	*w_wall;
 }	t_map;
+
+int	parser(t_map *game);
 
 #endif
 
