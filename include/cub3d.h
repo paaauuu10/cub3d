@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/26 11:10:07 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:57:42 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ typedef struct s_map
 }	t_map;
 
 int	parser(t_map *game);
+int	deal_key(int key, t_map *game);
+int	map_reading(t_map *game, char **s);
+int	mouse_hook(t_map *game);
+int	ft_exit(t_map *game, char *s);
 
 #endif
 

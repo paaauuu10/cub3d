@@ -6,7 +6,7 @@
 #    By: pborrull <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/22 14:17:08 by pborrull          #+#    #+#              #
-#    Updated: 2024/08/23 10:19:07 by pborrull         ###   ########.fr        #
+#    Updated: 2024/08/28 09:23:16 by pborrull         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ MAGENTA = \033[1;35m
 BLUE = \033[38;5;75m
 ORIGINAL = \033[0m
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 
 INCS = -I./include/ -I./include/Libft
 LIBFTA = -L./include/libft -lft
@@ -29,7 +29,7 @@ SRCDIR = src/
 MLX = include/libx/
 OBJDIR = obj/
 MINI = -L$(MLX) -lmlx -lXext -lX11 -lm  
-SRC_L = main.c map.c
+SRC_L = main.c map.c movs.c exit.c
 SRC = $(addprefix $(SRCDIR), $(SRC_L))
 OBJECTS = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 

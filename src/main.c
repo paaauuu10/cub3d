@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:30:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/26 10:08:22 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/27 12:17:05 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	add_lines(t_map *game, char *line)
 	game->height++;
 	temp = (char **)malloc((game->height + 1) * sizeof(char *));
 	if (!temp)
-		exit(0);
+		ft_exit(game, NULL);
 	temp[game->height] = NULL;
 	while (i < game->height - 1)
 	{
@@ -49,7 +49,6 @@ int	add_lines(t_map *game, char *line)
 	return (1);
 }
 
-
 int	map_reading(t_map *game, char **s)
 {
 	char	*line;
@@ -57,82 +56,39 @@ int	map_reading(t_map *game, char **s)
 	game->i = 0;
 	game->fd = open(s[1], O_RDONLY);
 	if (game->fd < 0)
-		return (0);
+		ft_exit(game, "We need a valid file");
 	while (1)
 	{
 		line = get_next_line(game->fd);
 		if (!line)
 			break ;
-		add_lines (game, line);
+		if (line[0] != '\n')
+			add_lines (game, line);
+		else
+			free(line);
 	}
 	close (game->fd);
 	if (!game->map)
-	{
-		ft_printf("Error\nI need a valid map\n");
-		exit(0);
-	}
+		ft_exit(game, "I need a valid map");
 	while (game->map[game->i])
 		game->width = calc_width(game->map[game->i++]);
 	return (1);
 }
 
-int	deal_key(int key, t_map *game)
-{
-	int	x;
-	int	y;
-	
-	x = game->x;
-	y = game->y;
-	if (key == 65307)
-	{
-		printf("Why are you scared?\n");
-		exit(0);
-		return (0);
-	}
-	if (key == 65361 || key == 97)
-//		left(game, key, x, y);
-	{
-		mlx_pixel_put(game->mlx_p, game->win_p, x - 10, y, 0xFFFFFF);
-		game->x -= 10;
-	}
-	if (key == 65363 || key == 100)
-//		right(game, x, y);
-	{
-		mlx_pixel_put(game->mlx_p, game->win_p, x + 10, y, 0xFFFFFF);
-		game->x += 10;
-	}
-	if (key == 65362 || key == 119)
-//		up(game, x, y);	
-	{
-		mlx_pixel_put(game->mlx_p, game->win_p, x, y - 10, 0xFFFFFF);
-		game->y -= 10;
-	}
-	if (key == 65364 || key == 115)
-//		down(game, key, x, y);
-	{
-		mlx_pixel_put(game->mlx_p, game->win_p, x, y + 10, 0xFFFFFF);
-		game->y += 10;
-	}
-	return (0);
-}
-
-int	mouse_hook(t_map *game)
-{
-	(void)game;
-	exit(0);
-	return (0);
-}
-
-
 int	main(int argc, char **argv)
 {
 	t_map	game;
 
-	game.x = 1000;
-	game.y = 500;
+	if (argc != 2)
+	{
+		printf("Error\nWe need a map to play.\n");
+		exit(0);
+	}
 	game.win_p = NULL;
 	game.mlx_p = NULL;
 	ft_bzero(&game, sizeof(t_map));
+	game.x = 1000;
+	game.y = 500;
 	map_reading(&game, argv);
 	parser(&game);
 	game.mlx_p = mlx_init();
@@ -141,6 +97,5 @@ int	main(int argc, char **argv)
 	mlx_key_hook(game.win_p, deal_key, (void *)&game);
 	mlx_hook(game.win_p, 17, 0, mouse_hook, (void *)&game);
 	mlx_loop(game.mlx_p);
-	(void)argc;
-	return (0);	
+	return (0);
 }
