@@ -6,52 +6,48 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:02:34 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/28 09:27:36 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/29 09:50:04 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_isspace(char s)
+void	ft_player(t_map *game, int y, int x)
 {
-	if (s == '\0' || s == ' ' || s == '\n' || s == '\t')
-		return (1);
-	return (0);
+	game->x = x;
+	game->y = y;
+	game->per = game->map_pos[y][x];
 }
 
-int	ft_line_bef(char **map, int i, int j)
+void	map_parser_aux(t_map *game, char **map, int i, int j)
 {
-	int	k;
-
-	k = 0;
-	while (map[i] && k != j)
+	j = 1;
+	while (map[i][j])
 	{
-		if (map[i][k++] == '\0')
-			return (0);
+		if (((ft_isspace(map[i][j + 1]) || !map[i][j + 1]
+			|| !ft_line_bef(map, i + 1, j)
+			|| ft_isspace(map[i][j - 1]) || !ft_line_bef(map, i - 1, j)
+				|| ft_isspace(map[i - 1][j])) || !map[i + 1]
+				|| !(map[i + 1][j]) || ft_isspace(map[i + 1][j]))
+				&& (map[i][j] != '1' && !ft_isspace(map[i][j])))
+			ft_exit(game, "The map is invalid");
+		if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E'
+				|| map[i][j] == 'W')
+		{
+			if (game->per == 0)
+				ft_player(game, i, j);
+			else
+				ft_exit(game, "That mission is not for a team.");
+		}
+		if (map[i][j] != '0' && map[i][j] != '1' && map[i][j] != 'N'
+				&& map[i][j] != 'S' && map[i][j] != 'E' && map[i][j] != 'W'
+				&& !ft_isspace(map[i][j]))
+			ft_exit(game, "That map is too strange.");
+		j++;
 	}
-	return (1);
 }
 
-char	*ft_no_spaces(t_map *game, int k, char *param)
-{
-	int		i;
-	char	*line;
-
-	line = game->map[k];
-	i = 0;
-	while (line[i] != param[0] && line[i + 1] != param[1])
-		i++;
-	while (line[i] && line[i] == ' ')
-		i++;
-	if (line[i])
-	{
-		game->param++;
-		return (&line[i]);
-	}
-	return (NULL);
-}
-
-int	map_parser(t_map *game, char **map)
+void	map_parser(t_map *game, char **map)
 {
 	int	i;
 	int	j;
@@ -72,53 +68,30 @@ int	map_parser(t_map *game, char **map)
 	{
 		if (map[i][0] != '1' && !ft_isspace(map[i][0]))
 			ft_exit(game, "The map is invalid-");
-		j = 1;
-		while (map[i][j])
-		{
-			if (((ft_isspace(map[i][j + 1]) || !map[i][j + 1] || !ft_line_bef(map, i + 1, j)
-				|| ft_isspace(map[i][j - 1]) || !ft_line_bef(map, i - 1, j)
-					|| ft_isspace(map[i - 1][j])) || !map[i + 1]
-					|| !(map[i + 1][j]) || ft_isspace(map[i + 1][j]))
-					&& (map[i][j] != '1' && !ft_isspace(map[i][j])))
-				ft_exit(game, "The map is invalid");
-			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E'
-					|| map[i][j] == 'W')
-			{
-				if (game->per == 0)
-					game->per = map[i][j];
-				else
-					ft_exit(game, "That mission is not for a team.");
-			}
-			if (map[i][j] != '0' && map[i][j] != '1' && map[i][j] != 'N'
-					&& map[i][j] != 'S' && map[i][j] != 'E' && map[i][j] != 'W'
-					&& !ft_isspace(map[i][j]))
-				ft_exit(game, "That map is too strange.");
-			j++;
-		}
+		map_parser_aux(game, map, i, j);
 		i++;
 	}
 	if (game->per == 0)
 		ft_exit(game, "For this mission we need a brave person.");
-	return (0);
 }
 
 void	ft_parser_aux(t_map *game, int i, int j)
 {
 	if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "NO ", 3))
-			game->n_wall = ft_strdup(ft_no_spaces(game, i, "NO"));
-		else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "SO ", 3))
-			game->s_wall = ft_strdup(ft_no_spaces(game, i, "SO"));
-		else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "WE ", 3))
-			game->w_wall = ft_strdup(ft_no_spaces(game, i, "WE"));
-		else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "EA ", 3))
-			game->e_wall = ft_strdup(ft_no_spaces(game, i, "EA"));
-		else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "F ", 2))
-			game->floor = ft_strdup(ft_no_spaces(game, i, "F"));
-		else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "C ", 2))
-			game->ceiling = ft_strdup(ft_no_spaces(game, i, "C"));
+		game->n_wall = ft_strdup(ft_no_spaces(game, i, "NO"));
+	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "SO ", 3))
+		game->s_wall = ft_strdup(ft_no_spaces(game, i, "SO"));
+	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "WE ", 3))
+		game->w_wall = ft_strdup(ft_no_spaces(game, i, "WE"));
+	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "EA ", 3))
+		game->e_wall = ft_strdup(ft_no_spaces(game, i, "EA"));
+	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "F ", 2))
+		game->floor = ft_strdup(ft_no_spaces(game, i, "F"));
+	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "C ", 2))
+		game->ceiling = ft_strdup(ft_no_spaces(game, i, "C"));
 }
 
-int	parser(t_map *game)
+void	parser(t_map *game)
 {
 	int	i;
 	int	j;
@@ -134,6 +107,6 @@ int	parser(t_map *game)
 	}
 	if (!game->map[i] && game->param != 6)
 		ft_exit(game, "We need more parameters");
-	map_parser(game, &game->map[i]);
-	return (0);
+	game->map_pos = &game->map[i];
+	map_parser(game, game->map_pos);
 }

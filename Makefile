@@ -6,7 +6,7 @@
 #    By: pborrull <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/22 14:17:08 by pborrull          #+#    #+#              #
-#    Updated: 2024/08/28 09:23:16 by pborrull         ###   ########.fr        #
+#    Updated: 2024/08/29 11:45:31 by pborrull         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,10 @@ INCS = -I./include/ -I./include/Libft
 LIBFTA = -L./include/libft -lft
 LIBFT = include/libft
 SRCDIR = src/
-MLX = include/libx/
+MLX = include/libx
 OBJDIR = obj/
 MINI = -L$(MLX) -lmlx -lXext -lX11 -lm  
-SRC_L = main.c map.c movs.c exit.c
+SRC_L = main.c map.c parser_aux.c movs.c exit.c map_read.c minimap.c minimap_aux.c
 SRC = $(addprefix $(SRCDIR), $(SRC_L))
 OBJECTS = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 

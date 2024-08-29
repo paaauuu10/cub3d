@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/26 12:57:42 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/29 11:36:14 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_map
 	int		fd;
 	int		i;
 	int		per;
+	char	**map_pos;
 	void	*mlx_p;
 	void	*win_p;
 	char	**map;
@@ -42,13 +43,30 @@ typedef struct s_map
 	void	*s_wall;
 	void	*e_wall;
 	void	*w_wall;
+	int		start_x;
+	int		start_y;
+	int		current_x;
+	int		current_y;
+	int		dir_x;
+	int		dir_y;
 }	t_map;
 
-int	parser(t_map *game);
-int	deal_key(int key, t_map *game);
-int	map_reading(t_map *game, char **s);
-int	mouse_hook(t_map *game);
-int	ft_exit(t_map *game, char *s);
+# define TILE_SIZE 15
+# define MINIMAP_SIZE 15
+# define MINIMAP_PIXEL_SIZE 225
+# define MINIMAP_OFFSET_X 10
+# define MINIMAP_OFFSET_Y 10
+
+void	parser(t_map *game);
+int		ft_isspace(char s);
+int		ft_line_bef(char **map, int i, int j);
+char	*ft_no_spaces(t_map *game, int k, char *param);
+int		deal_key(int key, t_map *game);
+int		map_reading(t_map *game, char **s);
+int		mouse_hook(t_map *game);
+int		ft_exit(t_map *game, char *s);
+int		calculate_start_x(t_map *game);
+int		calculate_start_y(t_map *game);
+void	draw_map(t_map *game);
 
 #endif
-
