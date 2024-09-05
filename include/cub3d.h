@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/29 11:36:14 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:05:20 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct s_map
 	void	*win_p;
 	char	**map;
 	void	*player;
-	void	*floor;
-	void	*ceiling;
+	int		floor;
+	int		ceiling;
 	void	*n_wall;
 	void	*s_wall;
 	void	*e_wall;
@@ -61,6 +61,7 @@ void	parser(t_map *game);
 int		ft_isspace(char s);
 int		ft_line_bef(char **map, int i, int j);
 char	*ft_no_spaces(t_map *game, int k, char *param);
+int		ft_obtain_color(char *s);
 int		deal_key(int key, t_map *game);
 int		map_reading(t_map *game, char **s);
 int		mouse_hook(t_map *game);

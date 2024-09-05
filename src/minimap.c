@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>					+#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/08/28 09:51:52 by pborrull		  #+#	#+#			 */
-/*   Updated: 2024/08/29 11:13:16 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/08/29 12:41:04 by pborrull         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	get_color(char c)
 	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (0xFFFFFF);
 	else
-		return (0x60808080);
+		return (0x60C0C0C0);
 }
 
 void	draw_tile(t_map *game, int x, int y, int color)
