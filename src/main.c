@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:30:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/29 11:30:08 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/06 10:16:27 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int	main(int argc, char **argv)
 	game.mlx_p = mlx_init();
 	game.win_p = mlx_new_window(game.mlx_p, 2048, 1024, "cub3d");
 	draw_map(&game);
-	mlx_key_hook(game.win_p, deal_key, (void *)&game);
+	//mlx_key_hook(game.win_p, deal_key, (void *)&game);
 	mlx_hook(game.win_p, 17, 0, mouse_hook, (void *)&game);
+	mlx_hook(game.win_p, 2, 1L<<0, deal_key, (void *)&game);
 	mlx_loop(game.mlx_p);
 	return (0);
 }
