@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/06 12:21:38 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:28:25 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_map
 	int		param;
 	int		fd;
 	int		i;
-	int		per;
+	char	per;
 	char	**map_pos;
 	void	*mlx_p;
 	void	*win_p;
