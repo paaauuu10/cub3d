@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>					+#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/08/28 09:51:52 by pborrull		  #+#	#+#			 */
-/*   Updated: 2024/08/29 12:41:04 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/06 09:57:19 by pborrull         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_draw_map_aux(t_map *game)
 	int		color;
 
 	i = game->start_y;
-	while (i < game->start_y + MINIMAP_SIZE && i < game->height - 6)
+	while (i < game->start_y + MINIMAP_SIZE && i < game->height)
 	{
 		game->current_x = MINIMAP_OFFSET_X;
 		j = game->start_x;

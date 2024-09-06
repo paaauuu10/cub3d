@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:52 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/29 10:20:20 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/06 09:56:37 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ int	calculate_start_y(t_map *game)
 	if (game->y < MINIMAP_SIZE / 2)
 		return (0);
 	else if (game->y + MINIMAP_SIZE / 2 > game->height - 6)
-		return (game->height - 6 - MINIMAP_SIZE);
+		return (game->height - MINIMAP_SIZE);
 	return (game->y - MINIMAP_SIZE / 2);
 }

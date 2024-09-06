@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:02:34 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/05 11:10:02 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/06 09:51:30 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,10 @@ void	parser(t_map *game)
 	if (!game->map[i] && game->param != 6)
 		ft_exit(game, "We need more parameters");
 	game->map_pos = &game->map[i];
+	i = 0;
+	game->width = 0;
+	while (game->map_pos[i])
+		game->width = calc_width(game, game->map_pos[i++]);
+	game->height = i;
 	map_parser(game, game->map_pos);
 }

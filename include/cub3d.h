@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/05 11:05:20 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/06 09:46:20 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ int		ft_exit(t_map *game, char *s);
 int		calculate_start_x(t_map *game);
 int		calculate_start_y(t_map *game);
 void	draw_map(t_map *game);
+int	calc_width(t_map *game, char *s);
 
 #endif
