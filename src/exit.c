@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:53:23 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/27 12:19:35 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:19:31 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_exit(t_map *game, char *s)
 		mlx_destroy_window(game->mlx_p, game->win_p);
 	if (game->mlx_p)
 		free(game->mlx_p);
-	while (line <= game->height && game->map && game->map[line])
+	while (game->map && game->map[line])
 		free(game->map[line++]);
 	if (game->map)
 		free(game->map);
