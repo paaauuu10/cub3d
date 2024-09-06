@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:31:38 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/28 09:33:05 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:10:21 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,35 @@ int	ft_line_bef(char **map, int i, int j)
 			return (0);
 	}
 	return (1);
+}
+
+int	ft_obtain_color(char *s)
+{
+	int		i;
+	int		red;
+	int		green;
+	int		blue;
+	int		num;
+
+	i = 1;
+	num = 0;
+	while (ft_isspace(s[i]))
+		i++;
+	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
+		num = num * 10 + (s[i++] - '0');
+	red = num;
+	num = 0;
+	i++;
+	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
+		num = num * 10 + (s[i++] - '0');
+	green = num;
+	num = 0;
+	i++;
+	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
+		num = num * 10 + (s[i++] - '0');
+	blue = num;
+	num = 0;
+	return (red * 65536 + green * 256 + blue);
 }
 
 char	*ft_no_spaces(t_map *game, int k, char *param)

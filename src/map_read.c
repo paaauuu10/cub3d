@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:49:40 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/05 13:11:44 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:14:56 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,5 @@ int	map_reading(t_map *game, char **s)
 		ft_exit(game, "I need a valid map");
 	while (game->map[game->i])
 		game->width = calc_width(game, game->map[game->i++]);
-//	game->i = 0;
-//	while (game->map[game->i])
-//		printf("%s", game->map[game->i++]);
 	return (1);
 }
