@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/06 14:28:25 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:47:46 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ typedef struct s_map
 	int		x_posl;
 	int		y_pos;
 	int		y_posl;
+    void *img_p;
+    char *img_data;
+    int bpp;
+    int size_line;
+    int endian;
 }	t_map;
 
 # define TILE_SIZE 32
