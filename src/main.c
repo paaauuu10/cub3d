@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:30:35 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/10 11:52:39 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:45:11 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 	printf("Calculate x: %d\n", game.x_pos);
 	draw_map(&game);
 	ft_draw_player(&game, 0);
-	ft_draw_big_map(&game);
+	ft_draw_lines(&game);
 	mlx_hook(game.win_p, 17, 0, mouse_hook, (void *)&game);
 	mlx_hook(game.win_p, 2, 1L << 0, deal_key, (void *)&game);
 	mlx_loop(game.mlx_p);

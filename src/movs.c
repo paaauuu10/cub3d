@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:46:24 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/10 12:55:08 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:55:40 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,8 @@ int	deal_key(int key, t_map *game)
 	return (0);
 }*/
 
-int	deal_key(int key, t_map *game)
+void	deal_key_aux(int key, t_map *game)
 {
-	printf("X_pos: %d\n", game->x_pos / 32);
-	printf("Y_pos: %d\n", game->y_pos / 32);
-	if (key == 65307)
-		ft_exit(game, "Why are you scared?");
 	if (key == 65361 || key == 97)
 	{
 		if (game->map_pos[game->y_pos / 32][(game->x_pos - 14) / 32] != '1')
@@ -60,11 +56,18 @@ int	deal_key(int key, t_map *game)
 			game->y_pos += 4;
 	}
 	game->y = game->y_pos / TILE_SIZE;
+}
+
+int	deal_key(int key, t_map *game)
+{
+	if (key == 65307)
+		ft_exit(game, "Why are you scared?");
+	deal_key_aux(key, game);
 	printf("X: %d\n", game->x);
 	printf("Y: %d\n", game->y);
 	draw_map(game);
 	ft_draw_player(game, 1);
-	ft_draw_big_map(game);
+	ft_draw_lines(game);
 	return (0);
 }
 
