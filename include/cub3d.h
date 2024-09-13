@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/10 15:47:46 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/09/13 11:57:30 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,31 @@
 # include <string.h>
 # include <fcntl.h>
 # include <math.h>
+# include <stdint.h> // Para uint8_t
+
+typedef struct s_ColorRGB 
+{
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+}	t_ColorRGB;
+
+# define RGB_Red   (t_ColorRGB){255, 0, 0}
+# define RGB_Green (t_ColorRGB){0, 255, 0}
+# define RGB_Blue  (t_ColorRGB){0, 0, 255}
+# define RGB_White (t_ColorRGB){255, 255, 255}
+# define RGB_Yellow (t_ColorRGB){255, 255, 0}
+
+# define mapWidth 2048
+# define mapHeight 1024
+# define screenWidth 2048
+# define screenHeight 1024
+
+# define TILE_SIZE 32
+# define MINIMAP_SIZE 6
+# define MINIMAP_PIXEL_SIZE 192
+# define MINIMAP_OFFSET_X 10
+# define MINIMAP_OFFSET_Y 10
 
 typedef struct s_map
 {
@@ -60,13 +85,58 @@ typedef struct s_map
     int bpp;
     int size_line;
     int endian;
-}	t_map;
 
-# define TILE_SIZE 32
-# define MINIMAP_SIZE 6
-# define MINIMAP_PIXEL_SIZE 192
-# define MINIMAP_OFFSET_X 10
-# define MINIMAP_OFFSET_Y 10
+	//afegides per dividir funcions
+	double	oldTime;
+	double	time;
+	double frameTime;
+	
+	//x and y player's start positon
+	double	posX;
+	double	posY; 
+	
+	//initial direction vector
+	double	dirX; 
+	double	dirY;
+	
+	//the 2d raycaster version of camera plane
+	double	planeX;
+	double	planeY;
+
+	//x-coordinate in camera space
+	double		cameraX;
+
+	double		rayDirX;
+	double		rayDirY;
+
+	int			mapX;
+	int			mapY;
+
+	double		sideDistX;
+	double		sideDistY;
+	double		deltaDistX;
+	double		deltaDistY;
+
+	int			stepX;
+	int			stepY;
+
+	int			hit;
+	int			side;
+
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
+
+	// Velocidad de movimiento en cuadrados/segundo
+	double		moveSpeed;
+	
+	// Velocidad de rotación en radianes/segundo
+	double		rotSpeed;
+
+
+	double		perpWallDist;
+	t_ColorRGB	color;
+}	t_map;
 
 void	parser(t_map *game);
 int		ft_isspace(char s);
