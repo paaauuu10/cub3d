@@ -6,11 +6,11 @@
 #    By: pborrull <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/22 14:17:08 by pborrull          #+#    #+#              #
-#    Updated: 2024/09/10 12:15:22 by pbotargu         ###   ########.fr        #
+#    Updated: 2024/08/29 12:28:19 by pborrull         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3d
+NAME = cub3D
 
 GREEN = \033[1;32m
 YELLOW = \033[1;33m
@@ -20,7 +20,7 @@ MAGENTA = \033[1;35m
 BLUE = \033[38;5;75m
 ORIGINAL = \033[0m
 
-CFLAGS = -Wall -Wno-unused-variable -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 
 INCS = -I./include/ -I./include/Libft
 LIBFTA = -L./include/libft -lft
@@ -29,7 +29,7 @@ SRCDIR = src/
 MLX = include/libx
 OBJDIR = obj/
 MINI = -L$(MLX) -lmlx -lXext -lX11 -lm  
-SRC_L = main.c map.c parser_aux.c movs.c exit.c map_read.c minimap.c minimap_aux.c player.c draw_map.c
+SRC_L = main.c map.c parser_aux.c movs.c exit.c map_read.c minimap.c minimap_aux.c
 SRC = $(addprefix $(SRCDIR), $(SRC_L))
 OBJECTS = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
