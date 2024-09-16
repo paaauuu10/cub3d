@@ -47,12 +47,19 @@ typedef struct s_ColorRGB
 # define MINIMAP_OFFSET_X 10
 # define MINIMAP_OFFSET_Y 10
 
+#define UP_KEY 119       // Tecla W
+#define DOWN_KEY 115     // Tecla S
+#define LEFT_KEY 97      // Tecla A
+#define RIGHT_KEY 100    // Tecla D
+#define ESC_KEY 65307    // Tecla Escape
+
 typedef struct s_map
 {
 	int		x;
 	int		y;
 	int		width;
 	int		height;
+
 	int		w_map;
 	int		h_map;
 	int		param;
@@ -136,6 +143,8 @@ typedef struct s_map
 
 	double		perpWallDist;
 	t_ColorRGB	color;
+
+	int			**map_real;
 }	t_map;
 
 void	parser(t_map *game);
@@ -153,5 +162,6 @@ void	ft_draw_player(t_map *game, int flag);
 void	ft_draw_big_map(t_map *game);
 int		ft_obtain_color(char *s);
 int		calc_width(t_map *game, char *s);
+int 	handle_key(int keycode, t_map *game);
 
 #endif

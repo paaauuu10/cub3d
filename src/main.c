@@ -99,8 +99,11 @@ void	hit_loop(t_map	*game)
 
 void	mlx_work_exec(t_map	*game)
 {
+		printf("dir X%f\n", game->dirX);
+        printf("%f\n", game->posX);
+        printf("pos Y%f\n", game->posY);
 		mlx_hook(game->win_p, 17, 0, mouse_hook, (void *)&game);
-		mlx_hook(game->win_p, 2, 1L<<0, deal_key, (void *)&game);
+		mlx_hook(game->win_p, 2, 1L<<0, handle_key, (void *)&game);
 		mlx_loop(game->mlx_p);
 }
 
@@ -213,10 +216,16 @@ void	game_loop(t_map	*game)
     	mlx_work_exec(game);
 	}
 }
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_map	game;
 
+	(void)argc;
+	ft_bzero(&game, sizeof(t_map));
+	map_reading(&game, argv);
+	parser(&game);
+	int i = 0;
+	int j = 0;
 	game.oldTime = getTicks();
 // x and y player's start position;
 	game.posX = 22;
