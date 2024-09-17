@@ -38,6 +38,7 @@ int	deal_key(int key, t_map *game)
     // Movimiento hacia adelante (tecla W)
     if (key == 119)  // 13 es el código de la tecla W en MinilibX
     {
+        printf("aasada: %d\n", (int)(game->posX + game->dirX * moveSpeed));
         if (game->map_pos[(int)(game->posX + game->dirX * moveSpeed)][(int)(game->posY)] != '1')
             game->posX += game->dirX * moveSpeed;
         if (game->map_pos[(int)(game->posX)][(int)(game->posY + game->dirY * moveSpeed)] != '1')
@@ -78,21 +79,26 @@ int handle_key(int keycode, t_map *game)
     double moveSpeed = 0.05;  // Velocidad de movimiento
     double rotSpeed = 0.05;   // Velocidad de rotación
 
-
+    mlx_clear_window(game->mlx_p, game->win_p);
     // Movimiento hacia adelante (tecla W)
     if (keycode == 119)  // 13 es el código de la tecla W en MinilibX
     {
-        if (game->map_pos[(int)(game->posX + game->dirX * moveSpeed)][(int)(game->posY)] != 1)
+        if (game == NULL)
+        {
+            printf("NULL\n");
+            exit(1);
+        }
+        if (game->r_map[(int)(game->posX + game->dirX * moveSpeed)][(int)(game->posY)] != 1)
             game->posX += game->dirX * moveSpeed;
-        if (game->map_pos[(int)(game->posX)][(int)(game->posY + game->dirY * moveSpeed)] != 1)
+        if (game->r_map[(int)(game->posX)][(int)(game->posY + game->dirY * moveSpeed)] != 1)
             game->posY += game->dirY * moveSpeed;
     }
     // Movimiento hacia atrás (tecla S)
     if (keycode == 115)  // 1 es el código de la tecla S
     {
-        if (game->map_pos[(int)(game->posX - game->dirX * moveSpeed)][(int)(game->posY)] == 0)
+        if (game->r_map[(int)(game->posX - game->dirX * moveSpeed)][(int)(game->posY)] != 1)
             game->posX -= game->dirX * moveSpeed;
-        if (game->map_pos[(int)(game->posX)][(int)(game->posY - game->dirY * moveSpeed)] == 0)
+        if (game->r_map[(int)(game->posX)][(int)(game->posY - game->dirY * moveSpeed)] != 1)
             game->posY -= game->dirY * moveSpeed;
     }
     // Rotar a la derecha (tecla D)
@@ -118,7 +124,7 @@ int handle_key(int keycode, t_map *game)
     // Cerrar la ventana con tecla ESC
     if (keycode == 65307)  // 53 es el código de la tecla ESC en MinilibX
         mlx_destroy_window(game->mlx_p, game->win_p);
-
+    game_loop(game);
     return 0;
 }
 

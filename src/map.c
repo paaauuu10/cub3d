@@ -109,6 +109,7 @@ void	parser(t_map *game)
 	if (!game->map[i] && game->param != 6)
 		ft_exit(game, "We need more parameters");
 	game->map_pos = &game->map[i];
+	game->map_coor = i;
 	i = 0;
 	game->width = 0;
 	while (game->map_pos[i])

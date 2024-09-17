@@ -103,7 +103,7 @@ void	mlx_work_exec(t_map	*game)
         printf("%f\n", game->posX);
         printf("pos Y%f\n", game->posY);
 		mlx_hook(game->win_p, 17, 0, mouse_hook, (void *)&game);
-		mlx_hook(game->win_p, 2, 1L<<0, handle_key, (void *)&game);
+		mlx_hook(game->win_p, 2, 1L<<0, handle_key, game);
 		mlx_loop(game->mlx_p);
 }
 
@@ -193,8 +193,8 @@ void	game_loop(t_map	*game)
 	int x;
 	
 	x = 0;
-	while (42)
-	{
+	/*while (42)
+	{*/
 		while (x < screenWidth)
     	{
         	init_game_data(game, x);
@@ -214,8 +214,9 @@ void	game_loop(t_map	*game)
 		}
     	mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0); // Mostrar la imagen en la ventana
     	mlx_work_exec(game);
-	}
+	//}
 }
+
 int	main(int argc, char **argv)
 {
 	t_map	game;
@@ -228,14 +229,66 @@ int	main(int argc, char **argv)
 	int j = 0;
 	game.oldTime = getTicks();
 // x and y player's start position;
-	game.posX = 22;
-	game.posY = 12;
+	printf("%d\n", game.start_x);
+	printf("%d\n", game.start_y);
+	game.posX = 4;
+	game.posY = 2;
 //initial direction vector;
 	game.dirX = -1;
 	game.dirY = 0;
 //the 2d raycaster version of camera plane
 	game.planeX = 0;
 	game.planeY = 0.66;
+	printf("%d\n", game.width);
+	printf("%d\n", game.height);
+	printf("game_map_pos %c\n", game.map_pos[4][7]);
+	game.r_map = (int	**)malloc(game.height * sizeof(int *));
+	if (game.r_map == NULL)
+		printf("Null game.r_map\n");
+	i = 0;
+	while(i < game.height)
+	{
+		game.r_map[i] = (int *)malloc(game.width * sizeof(int) + 1);
+		if (game.r_map[i] == NULL)
+			printf("game.r_map[i] == NULL\n");
+		game.r_map[i][0] = 1;
+		i++;
+	}
+	printf("game.x %d\n", game.x);
+	i = game.map_coor;
+	j = 0;
+	int p = 0;
+
+	while (i < game.height + game.map_coor)
+	{
+		while(game.map[i][j] != 10)
+		{
+			//printf("%c", game.map[i][j]);
+			game.r_map[p][j] = (int)game.map[i][j];
+			//printf("%c", game.r_map[p][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+		p++;
+		j = 0;
+	}
+
+	i = 0;
+	j = 0;
+	printf("asdasaasa %d\n", game.r_map[i][j]);
+	/*while (i <= game.height)
+	{
+		while (j <= game.width)
+		{
+			//printf("i %d\n", i);
+			printf("j %d\n", j++);
+			//printf("%d", game.r_map[i][j++]);
+		}
+		printf("\n");
+		i++;
+		j = 0;
+	}*/
 	game.mlx_p = mlx_init();
 	game.win_p = mlx_new_window(game.mlx_p, screenWidth, screenHeight, "cub3d");
 	createImage(&game); // Crear la imagen en memoria
