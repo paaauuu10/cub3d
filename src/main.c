@@ -21,7 +21,9 @@ void printFPS(double frameTime)
 
 void createImage(t_map *game)
 {
-    game->img_p = mlx_new_image(game->mlx_p, mapWidth, mapHeight);
+    if (game->img_p != NULL)
+        mlx_destroy_image(game->mlx_p, game->img_p);
+	game->img_p = mlx_new_image(game->mlx_p, mapWidth, mapHeight);
     game->img_data = mlx_get_data_addr(game->img_p, &game->bpp, &game->size_line, &game->endian);
 }
 
@@ -29,9 +31,6 @@ void drawVerticalLine(t_map *game, int x, int startY, int endY, t_ColorRGB color
 {
     //printf("PINTANDO\n");
 	int y = startY;
-    printf("b: %d\n",color.b);
-    printf("g: %d\n",color.g);
-    printf("r: %d\n",color.r);
 	while (y <= endY)
     {
         int pixel = (y * game->size_line) + (x * (game->bpp / 8));
@@ -68,16 +67,13 @@ void	hit_loop(t_map	*game)
            	game->mapY += game->stepY; // Cambiado de stepX a stepY
            	game->side = 1;
        	}
-       	if (game->r_map[game->mapX][game->mapY] > 0)
+       	if (game->r_map[game->mapY][game->mapX] == '1')
            	game->hit = 1;
    	}
 }
 
 void	mlx_work_exec(t_map	*game)
 {
-		printf("dir X%f\n", game->dirX);
-        printf("%f\n", game->posX);
-        printf("pos Y%f\n", game->posY);
 		mlx_hook(game->win_p, 17, 0, mouse_hook, (void *)&game);
 		mlx_hook(game->win_p, 2, 1L<<0, handle_key, game);
 		mlx_loop(game->mlx_p);
@@ -88,10 +84,7 @@ void init_game_data(t_map *game, int x)
 	game->cameraX = 2 * (double)x / (double)screenWidth - 1; //x-coordinate in camera space
 	game->rayDirX = game->dirX + game->planeX * game->cameraX;
 	game->rayDirY = game->dirY + game->planeY * game->cameraX;
-	printf("%f\n", game->posX);
 	game->mapX = (int)game->posX;
-	printf("mapX: %d\n", game->mapX);
-	printf("%f\n", game->posX);
 	game->mapY = (int)game->posY;
 	game->deltaDistX = (game->rayDirX == 0) ? 1e30 : fabs(1 / game->rayDirX);
 	game->deltaDistY = (game->rayDirY == 0) ? 1e30 : fabs(1 / game->rayDirY);
@@ -110,9 +103,9 @@ void	ft_switch(t_map	*game)
 		case '1':
 			game->color = RGB_Red;
 			break;
-		default:
+		/*default:
 			game->color = RGB_White;
-			break;
+			break;*/
 	}
 	//revisar si aixo es valid
 }
@@ -132,7 +125,7 @@ void	ft_time_and_vel(t_map *game)
 
 void	ft_drawStart_drawEnd(t_map *game)
 {
-	game->lineHeight = (int)(screenHeight / game->perpWallDist);
+	game->lineHeight = (int)(screenHeight / (game->perpWallDist + 0.5));
 	game->drawStart = -game->lineHeight / 2 + screenHeight / 2;
 	if (game->drawStart < 0)
 		game->drawStart = 0;
@@ -160,7 +153,7 @@ void	ft_if_case(t_map *game)
 	else
 	{
 		game->stepY = 1;
-		game->sideDistY = (game->mapY + 1.0 - game-> posY) * game->deltaDistY;
+		game->sideDistY = (game->mapY + 1.0 - game->posY) * game->deltaDistY;
 	}
 }
 
@@ -171,26 +164,20 @@ void	game_loop(t_map	*game)
 	x = 0;
 	/*while (42)
 	{*/
+		createImage(game); // Crear la imagen en memoria
 		while (x < screenWidth)
     	{
         	init_game_data(game, x);
-			printf("\nmapX: %d\n", game->mapX);
         	ft_if_case(game);
-			printf("mapX1: %d\n", game->mapX);
 			hit_loop(game);
-			printf("mapX2: %d\n\n", game->mapX);
-        	if (game->side == 0)
+			if (game->side == 0)
             	game->perpWallDist = (game->sideDistX - game->deltaDistX);
         	else
             	game->perpWallDist = (game->sideDistY - game->deltaDistY);
 			ft_drawStart_drawEnd(game);
-			//printf("Valor en r_map X: %d\n", game->mapX);
-			//printf("Valor en r_map Y: %d\n", game->mapY);
-			//printf("x: %f\n", game->posX);
-			//printf("y: %f\n", game->posY);
 			ft_switch(game);
-			if (game->side == 1)
-            	game->color = divideColorBy(game->color, 2);
+			/*if (game->side == 1)
+            	game->color = divideColorBy(game->color, 2);*/
         	drawVerticalLine(game, x, game->drawStart, game->drawEnd, game->color);
 			x++;
 			ft_time_and_vel(game);
@@ -243,12 +230,8 @@ int	main(int argc, char **argv)
 	int j = 0;
 	game.oldTime = getTicks();
 // x and y player's start position;
-	printf("x: %d\n", game.x);
-	printf("y: %d\n", game.y);
 	game.posX = game.x;
 	game.posY = game.y;
-	printf("px: %f\n", game.posX);
-	printf("py: %f\n", game.posY);
 //initial direction vector;
 	ft_orientation(&game);
 	//printf("%d\n", game.width);
@@ -275,20 +258,19 @@ int	main(int argc, char **argv)
 		{
 			//printf("%c", game.map[i][j]);
 			game.r_map[p][j] = game.map[i][j];
-			printf("%c", game.r_map[p][j]);
+			//printf("%c", game.r_map[p][j]);
 			j++;
 		}
-		printf("\n");
+		//printf("\n");
 		i++;
 		p++;
 		j = 0;
 	}
 	i = 0;
 	j = 0;
-	printf("asdasaasa %d\n", game.r_map[i][j]);
+	//printf("asdasaasa %d\n", game.r_map[i][j]);
 	game.mlx_p = mlx_init();
 	game.win_p = mlx_new_window(game.mlx_p, screenWidth, screenHeight, "cub3d");
-	createImage(&game); // Crear la imagen en memoria
-	//game_loop(&game);
+	game_loop(&game);
 	return (0);
 }
