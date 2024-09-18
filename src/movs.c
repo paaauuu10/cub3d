@@ -76,8 +76,8 @@ int	deal_key(int key, t_map *game)
 
 int handle_key(int keycode, t_map *game)
 {
-    double moveSpeed = 0.05;  // Velocidad de movimiento
-    double rotSpeed = 0.05;   // Velocidad de rotación
+    double moveSpeed = 0.15;  // Velocidad de movimiento
+    double rotSpeed = 0.15;   // Velocidad de rotación
 
     mlx_clear_window(game->mlx_p, game->win_p);
     // Movimiento hacia adelante (tecla W)

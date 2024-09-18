@@ -31,11 +31,7 @@ typedef struct s_ColorRGB
     uint8_t b;
 }	t_ColorRGB;
 
-# define RGB_Red   (t_ColorRGB){255, 0, 0}
-# define RGB_Green (t_ColorRGB){0, 255, 0}
-# define RGB_Blue  (t_ColorRGB){0, 0, 255}
-# define RGB_White (t_ColorRGB){255, 255, 255}
-# define RGB_Yellow (t_ColorRGB){255, 255, 0}
+
 
 # define mapWidth 2048
 # define mapHeight 1024
@@ -132,7 +128,7 @@ typedef struct s_map
 	double		perpWallDist;
 	t_ColorRGB	color;
 
-	int		**r_map;
+	char		**r_map;
 	int		map_coor;
 }	t_map;
 

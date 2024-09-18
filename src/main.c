@@ -19,34 +19,6 @@ void printFPS(double frameTime)
     }
 }
 
-int worldMap[mapWidth][mapHeight]=
-{
-  {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
-  {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,1,1,1,1,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {2,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {2,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {2,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
-
 void createImage(t_map *game)
 {
     game->img_p = mlx_new_image(game->mlx_p, mapWidth, mapHeight);
@@ -55,8 +27,12 @@ void createImage(t_map *game)
 
 void drawVerticalLine(t_map *game, int x, int startY, int endY, t_ColorRGB color)
 {
-    int y = startY;
-    while (y <= endY)
+    //printf("PINTANDO\n");
+	int y = startY;
+    printf("b: %d\n",color.b);
+    printf("g: %d\n",color.g);
+    printf("r: %d\n",color.r);
+	while (y <= endY)
     {
         int pixel = (y * game->size_line) + (x * (game->bpp / 8));
         game->img_data[pixel] = color.b;        // Blue
@@ -92,7 +68,7 @@ void	hit_loop(t_map	*game)
            	game->mapY += game->stepY; // Cambiado de stepX a stepY
            	game->side = 1;
        	}
-       	if (worldMap[game->mapX][game->mapY] > 0)
+       	if (game->r_map[game->mapX][game->mapY] > 0)
            	game->hit = 1;
    	}
 }
@@ -112,30 +88,30 @@ void init_game_data(t_map *game, int x)
 	game->cameraX = 2 * (double)x / (double)screenWidth - 1; //x-coordinate in camera space
 	game->rayDirX = game->dirX + game->planeX * game->cameraX;
 	game->rayDirY = game->dirY + game->planeY * game->cameraX;
+	printf("%f\n", game->posX);
 	game->mapX = (int)game->posX;
+	printf("mapX: %d\n", game->mapX);
+	printf("%f\n", game->posX);
 	game->mapY = (int)game->posY;
 	game->deltaDistX = (game->rayDirX == 0) ? 1e30 : fabs(1 / game->rayDirX);
 	game->deltaDistY = (game->rayDirY == 0) ? 1e30 : fabs(1 / game->rayDirY);
 	game->hit = 0;
 }
+# define RGB_Red   (t_ColorRGB){255, 0, 0}
+# define RGB_Green (t_ColorRGB){0, 255, 0}
+# define RGB_Blue  (t_ColorRGB){0, 0, 255}
+# define RGB_White (t_ColorRGB){255, 255, 255}
+# define RGB_Yellow (t_ColorRGB){255, 255, 0}
+
 void	ft_switch(t_map	*game)
-{
-	switch (worldMap[game->mapX][game->mapY])
+{	
+	switch (game->r_map[game->mapX][game->mapY])
 	{
-		case 1:
+		case '1':
 			game->color = RGB_Red;
 			break;
-		case 2:
-			game->color = RGB_Green;
-			break;
-		case 3:
-			game->color = RGB_Blue;
-			break;
-		case 4:
-			game->color = RGB_White;
-			break;
 		default:
-			game->color = RGB_Yellow;
+			game->color = RGB_White;
 			break;
 	}
 	//revisar si aixo es valid
@@ -148,7 +124,7 @@ void	ft_time_and_vel(t_map *game)
 	game->time = getTicks();
 	game->frameTime = (game->time - game->oldTime) / 1000.0; // frameTime en segundos
    	// Imprimir los FPS
-	printFPS(game->frameTime);
+	//printFPS(game->frameTime);
    	// Modificadores de velocidad
 	game->moveSpeed = game->frameTime * 5.0; // Velocidad de movimiento en cuadrados/segundo
 	game->rotSpeed = game->frameTime * 3.0;  // Velocidad de rotación en radianes/segundo
@@ -198,13 +174,20 @@ void	game_loop(t_map	*game)
 		while (x < screenWidth)
     	{
         	init_game_data(game, x);
+			printf("\nmapX: %d\n", game->mapX);
         	ft_if_case(game);
+			printf("mapX1: %d\n", game->mapX);
 			hit_loop(game);
+			printf("mapX2: %d\n\n", game->mapX);
         	if (game->side == 0)
             	game->perpWallDist = (game->sideDistX - game->deltaDistX);
         	else
             	game->perpWallDist = (game->sideDistY - game->deltaDistY);
 			ft_drawStart_drawEnd(game);
+			//printf("Valor en r_map X: %d\n", game->mapX);
+			//printf("Valor en r_map Y: %d\n", game->mapY);
+			//printf("x: %f\n", game->posX);
+			//printf("y: %f\n", game->posY);
 			ft_switch(game);
 			if (game->side == 1)
             	game->color = divideColorBy(game->color, 2);
@@ -216,7 +199,38 @@ void	game_loop(t_map	*game)
     	mlx_work_exec(game);
 	//}
 }
+void		ft_orientation(t_map *game)
+{
+	if (game->per == 'N')
+	{
+		game->dirX = -1;
+		game->dirY = 0;
+		game->planeX = 0;
+		game->planeY = 0.66;
+	}
+	else if (game->per == 'S')
+	{
+		game->dirX = 1;
+		game->dirY = 0;
+		game->planeX = 0;
+		game->planeY = -0.66;
+	}
+	else if (game->per == 'E')
+	{
+		game->dirX = 0;
+		game->dirY = -1;
+		game->planeX = -0.66;
+		game->planeY = 0;
+	}
+	if (game->per == 'W')
+	{
+		game->dirX = 0;
+		game->dirY = 1;
+		game->planeX = 0.66;
+		game->planeY = 0;
+	}
 
+}
 int	main(int argc, char **argv)
 {
 	t_map	game;
@@ -229,32 +243,28 @@ int	main(int argc, char **argv)
 	int j = 0;
 	game.oldTime = getTicks();
 // x and y player's start position;
-	printf("%d\n", game.start_x);
-	printf("%d\n", game.start_y);
-	game.posX = 4;
-	game.posY = 2;
+	printf("x: %d\n", game.x);
+	printf("y: %d\n", game.y);
+	game.posX = game.x;
+	game.posY = game.y;
+	printf("px: %f\n", game.posX);
+	printf("py: %f\n", game.posY);
 //initial direction vector;
-	game.dirX = -1;
-	game.dirY = 0;
-//the 2d raycaster version of camera plane
-	game.planeX = 0;
-	game.planeY = 0.66;
-	printf("%d\n", game.width);
-	printf("%d\n", game.height);
-	printf("game_map_pos %c\n", game.map_pos[4][7]);
-	game.r_map = (int	**)malloc(game.height * sizeof(int *));
+	ft_orientation(&game);
+	//printf("%d\n", game.width);
+	//printf("%d\n", game.height);
+	//printf("PER: %c\n", game.per);
+	game.r_map = (char	**)malloc(game.height * sizeof(char *));
 	if (game.r_map == NULL)
 		printf("Null game.r_map\n");
 	i = 0;
 	while(i < game.height)
 	{
-		game.r_map[i] = (int *)malloc(game.width * sizeof(int) + 1);
+		game.r_map[i] = (char *)malloc(game.width * sizeof(char) + 1);
 		if (game.r_map[i] == NULL)
 			printf("game.r_map[i] == NULL\n");
-		game.r_map[i][0] = 1;
 		i++;
 	}
-	printf("game.x %d\n", game.x);
 	i = game.map_coor;
 	j = 0;
 	int p = 0;
@@ -264,8 +274,8 @@ int	main(int argc, char **argv)
 		while(game.map[i][j] != 10)
 		{
 			//printf("%c", game.map[i][j]);
-			game.r_map[p][j] = (int)game.map[i][j];
-			//printf("%c", game.r_map[p][j]);
+			game.r_map[p][j] = game.map[i][j];
+			printf("%c", game.r_map[p][j]);
 			j++;
 		}
 		printf("\n");
@@ -273,25 +283,12 @@ int	main(int argc, char **argv)
 		p++;
 		j = 0;
 	}
-
 	i = 0;
 	j = 0;
 	printf("asdasaasa %d\n", game.r_map[i][j]);
-	/*while (i <= game.height)
-	{
-		while (j <= game.width)
-		{
-			//printf("i %d\n", i);
-			printf("j %d\n", j++);
-			//printf("%d", game.r_map[i][j++]);
-		}
-		printf("\n");
-		i++;
-		j = 0;
-	}*/
 	game.mlx_p = mlx_init();
 	game.win_p = mlx_new_window(game.mlx_p, screenWidth, screenHeight, "cub3d");
 	createImage(&game); // Crear la imagen en memoria
-	game_loop(&game);
+	//game_loop(&game);
 	return (0);
 }

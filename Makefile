@@ -20,7 +20,7 @@ MAGENTA = \033[1;35m
 BLUE = \033[38;5;75m
 ORIGINAL = \033[0m
 
-CFLAGS = -Wall -Wno-unused-variable -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Wno-unused-variable -Wextra -g #-fsanitize=address
 
 INCS = -I./include/ -I./include/Libft
 LIBFTA = -L./include/libft -lft
