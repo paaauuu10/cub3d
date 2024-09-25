@@ -173,7 +173,7 @@ void	draw_buffer(int width, int height, t_map *game)
 		}
 		y++;
 	}
-	mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0); //revisar img_data
+	//mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0); //revisar img_data
 }
 
 void		ft_orientation(t_map *game)
@@ -258,7 +258,6 @@ void	ft_init_textures(t_map *game)
 			printf("Error uploading textures\n");
 			exit(1);
 		}
-		mlx_put_image_to_window(game->mlx_p, game->win_p, game->texture[i]->imag, 64, 64);
 		game->texture[i]->addr = mlx_get_data_addr(game->texture[i]->imag, &game->texture[i]->bpp, &game->texture[i]->size_l, &game->texture[i]->endian);
 		i++;
 		
@@ -435,7 +434,6 @@ int	draw_cub(t_map *game)
 	w = screenWidth;
 	h = screenHeight;
 	x = 0;
-	mlx_clear_window(game->mlx_p, game->win_p);
 	createImage(game);
 	while (x < screenWidth)
 	{
@@ -447,6 +445,8 @@ int	draw_cub(t_map *game)
 	}
 	draw_buffer(screenWidth, screenHeight, game);
 	clean_buffer(game, screenWidth, screenHeight);
+	mlx_clear_window(game->mlx_p, game->win_p);
+	mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0);
 	/*cub->ray.move_speed = MOVE_SPEED;
 	cub->ray.rot_speed = ROT_SPEED;*/
 	return (0); //revisar
