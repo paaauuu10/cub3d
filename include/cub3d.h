@@ -33,10 +33,36 @@ typedef struct s_ColorRGB
 
 
 
-# define mapWidth 2048
-# define mapHeight 1024
-# define screenWidth 2048
-# define screenHeight 1024
+# define screenWidth 	640
+# define screenHeight 	480
+# define texWidth 		64
+# define texHeight 		64
+# define N 0
+# define S 1
+# define W 2
+# define E 3
+
+
+typedef struct s_texture
+{
+	int			num; //quina textura en funcio del tipus de mosaic golpejat
+	double		wall_x; //la posicio exacta on s'ha golpejat la paret
+	int			x; //la coordenada x dins de la textura que s'utilitzara
+	int			y; //la coordenada y dins de la textura que s'utilitzara
+	double		step; //paso para avanzar en las coordenadas de textura
+	double		pos;//coordenada vertical en la textura per obtenir el color
+					//del textel que s'assignara al pixel en la pantalla
+}	t_texture;
+
+typedef struct s_image
+{
+	void		*imag;
+	char		*addr;
+	char		*t;
+	int			size_l;
+	int			bpp;
+	int			endian;
+}	t_image;
 
 typedef struct s_map
 {
@@ -57,10 +83,10 @@ typedef struct s_map
 	void	*player;
 	int		floor;
 	int		ceiling;
-	void	*n_wall;
-	void	*s_wall;
-	void	*e_wall;
-	void	*w_wall;
+	char	*n_wall;
+	char	*s_wall;
+	char	*e_wall;
+	char	*w_wall;
 	int		start_x;
 	int		start_y;
 	int		current_x;
@@ -112,6 +138,7 @@ typedef struct s_map
 	int			stepY;
 
 	int			hit;
+	int			hit_dir;
 	int			side;
 
 	int			lineHeight;
@@ -130,7 +157,21 @@ typedef struct s_map
 
 	char		**r_map;
 	int		map_coor;
+
+	uint32_t	buffer[screenHeight][screenWidth];
+	t_image		*texture[4];
+
+	int			texNum;
+	double		wallX;
+	int			texX;
+	int			texY;
+	double		step;
+	double		texPos;
+	uint32_t	color_2;
+	t_texture	tex;
 }	t_map;
+
+
 
 void	parser(t_map *game);
 int		ft_isspace(char s);
@@ -149,6 +190,8 @@ int		ft_obtain_color(char *s);
 int		calc_width(t_map *game, char *s);
 int		handle_key(int keycode, t_map *game);
 void	game_loop(t_map	*game);
+int		draw_cub(t_map *game);
+
 
 # define TILE_SIZE 15
 # define MINIMAP_SIZE 15

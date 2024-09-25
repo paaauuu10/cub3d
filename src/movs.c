@@ -12,71 +12,13 @@
 
 #include "cub3d.h"
 
-int	deal_key(int key, t_map *game)
-{
-	double moveSpeed = 0.05;  // Velocidad de movimiento
-    double rotSpeed = 0.05;   // Velocidad de rotación
-    printf("%f\n", game->dirX);
-    printf("%f\n", game->dirY);
-    printf("%d\n", (int)game->posY);
-    printf("%d\n", (int)game->posX);
-    printf("%d\n", game->y_pos);
-    printf("%d\n", game->x_pos);
-    printf("test: %d\n",(int)(game->posX + game->dirX * moveSpeed));
-    //printf("test char: %c\n", game->map_pos[(int)(game->posX + game->dirX * moveSpeed)][(int)(game->posY)]);
-    int i =0;
-    int j = 0;
-    while (game->map_pos[i][j])
-    {
-        while(game->map_pos[i][j])
-            printf("%c", game->map_pos[i][j++]);
-        i++;
-        j = 0;
-    }
-    if (key == 65307)
-		ft_exit(game, "Why are you scared?");
-    // Movimiento hacia adelante (tecla W)
-    if (key == 119)  // 13 es el código de la tecla W en MinilibX
-    {
-        printf("aasada: %d\n", (int)(game->posX + game->dirX * moveSpeed));
-        if (game->map_pos[(int)(game->posX + game->dirX * moveSpeed)][(int)(game->posY)] != '1')
-            game->posX += game->dirX * moveSpeed;
-        if (game->map_pos[(int)(game->posX)][(int)(game->posY + game->dirY * moveSpeed)] != '1')
-            game->posY += game->dirY * moveSpeed;
-    }
-
-
-
-
-    if (key == 65361 || key == 97)
-	{	
-		if (game->map_pos[game->y_pos / 32][(game->x_pos - 15) / 32] != '1')
-			game->x_pos -= 5;
-	}
-	if (key == 65363 || key == 100)
-	{
-		if (game->map_pos[game->y_pos / 32][(game->x_pos + 5) / 32] != '1')
-			game->x_pos += 5;	
-	}
-	if (key == 65362 || key == 119)
-	{
-		if (game->map_pos[(game->y_pos - 15) / 32][(game->x_pos) / 32] != '1')
-			game->y_pos -= 5;
-		if (game->map_pos[(game->y_pos + 5) / 32][(game->x_pos) / 32] != '1')
-			game->y_pos += 5;
-	}
-	draw_map(game);
-	ft_draw_player(game, 1);
-	ft_draw_big_map(game);
-	return (0);
-}
-
 int handle_key(int keycode, t_map *game)
 {
     double moveSpeed = 0.15;  // Velocidad de movimiento
     double rotSpeed = 0.15;   // Velocidad de rotación
 
     // Movimiento hacia adelante (tecla W)
+    
     if (keycode == 119)  // 13 es el código de la tecla W en MinilibX
     {
         if (game == NULL)
@@ -84,33 +26,33 @@ int handle_key(int keycode, t_map *game)
             printf("NULL\n");
             exit(1);
         }
-        if (game->r_map[(int)(game->posX + game->dirX * moveSpeed)][(int)(game->posY)] != 1)
+        if (game->r_map[(int)(game->posX + game->dirX * moveSpeed)][(int)(game->posY)] != '1')
             game->posX += game->dirX * moveSpeed;
-        if (game->r_map[(int)(game->posX)][(int)(game->posY + game->dirY * moveSpeed)] != 1)
+        if (game->r_map[(int)(game->posX)][(int)(game->posY + game->dirY * moveSpeed)] != '1')
             game->posY += game->dirY * moveSpeed;
     }
     // Movimiento hacia atrás (tecla S)
     else if (keycode == 115)  // 1 es el código de la tecla S
     {
-        if (game->r_map[(int)(game->posX - game->dirX * moveSpeed)][(int)(game->posY)] != 1)
+        if (game->r_map[(int)(game->posX - game->dirX * moveSpeed)][(int)(game->posY)] != '1')
             game->posX -= game->dirX * moveSpeed;
-        if (game->r_map[(int)(game->posX)][(int)(game->posY - game->dirY * moveSpeed)] != 1)
+        if (game->r_map[(int)(game->posX)][(int)(game->posY - game->dirY * moveSpeed)] != '1')
             game->posY -= game->dirY * moveSpeed;
     }
     // Movimiento hacia derecha (tecla D)
     else if (keycode == 100)
     {
-        if (game->r_map[(int)(game->posX + game->planeX * moveSpeed)][(int)(game->posY)] != 1)
+        if (game->r_map[(int)(game->posX + game->planeX * moveSpeed)][(int)(game->posY)] != '1')
             game->posX += game->planeX * moveSpeed;
-        if (game->r_map[(int)(game->posX)][(int)(game->posY + game->planeY * moveSpeed)] != 1)
+        if (game->r_map[(int)(game->posX)][(int)(game->posY + game->planeY * moveSpeed)] != '1')
             game->posY += game->planeY * moveSpeed;
     }
     // Movimiento hacia izq (tecla A)
     else if (keycode == 97) 
     {
-       if (game->r_map[(int)(game->posX - game->planeX * moveSpeed)][(int)(game->posY)] != 1)
+       if (game->r_map[(int)(game->posX - game->planeX * moveSpeed)][(int)(game->posY)] != '1')
             game->posX -= game->planeX * moveSpeed;
-        if (game->r_map[(int)(game->posX)][(int)(game->posY - game->planeY * moveSpeed)] != 1)
+        if (game->r_map[(int)(game->posX)][(int)(game->posY - game->planeY * moveSpeed)] != '1')
             game->posY -= game->planeY * moveSpeed;
     }
     // Rotar a la derecha (tecla ->)
@@ -136,9 +78,9 @@ int handle_key(int keycode, t_map *game)
     // Cerrar la ventana con tecla ESC
     else if (keycode == 65307)  // 53 es el código de la tecla ESC en MinilibX
         mlx_destroy_window(game->mlx_p, game->win_p);
-    printf("asdsa sdasd asd as dasd as %d", keycode);
+
     mlx_clear_window(game->mlx_p, game->win_p);
-    game_loop(game);
+    draw_cub(game);
     return 0;
 }
 

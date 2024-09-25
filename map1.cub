@@ -1,13 +1,13 @@
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
-F 220,100,0
+NO ./Textures/green2.xpm
+SO ./Textures/greystone.xpm
+WE ./Textures/green2.xpm
+EA ./Textures/greystone.xpm
+F 200,200,200
 C 225,30,0
 111111
 100001
 100001
-10S101
+10N101
 100001
 111111
 

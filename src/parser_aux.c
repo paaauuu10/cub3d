@@ -58,7 +58,7 @@ int	ft_obtain_color(char *s)
 		num = num * 10 + (s[i++] - '0');
 	blue = num;
 	num = 0;
-	return (red * 65536 + green * 256 + blue);
+	return (free(s), red * 65536 + green * 256 + blue);
 }
 
 char	*ft_no_spaces(t_map *game, int k, char *param)

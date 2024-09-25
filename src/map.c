@@ -77,19 +77,37 @@ void	map_parser(t_map *game, char **map)
 
 void	ft_parser_aux(t_map *game, int i, int j)
 {
+	int	k;
+
+	k = 0;
 	if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "NO ", 3))
-		game->n_wall = ft_strdup(ft_no_spaces(game, i, "NO"));
+	{
+		game->n_wall = ft_strdup(&(ft_no_spaces(game, i, "NO"))[3]);
+		k = ft_strlen(game->n_wall);
+		game->n_wall[k - 1] = '\0';
+	}
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "SO ", 3))
-		game->s_wall = ft_strdup(ft_no_spaces(game, i, "SO"));
+	{
+		game->s_wall = ft_strdup(&(ft_no_spaces(game, i, "SO"))[3]);
+		k = ft_strlen(game->s_wall);
+		game->s_wall[k - 1] = '\0';
+	}
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "WE ", 3))
-		game->w_wall = ft_strdup(ft_no_spaces(game, i, "WE"));
+	{
+		game->w_wall = ft_strdup(&(ft_no_spaces(game, i, "WE"))[3]);
+		k = ft_strlen(game->w_wall);
+		game->w_wall[k - 1] = '\0';
+	}
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "EA ", 3))
-		game->e_wall = ft_strdup(ft_no_spaces(game, i, "EA"));
+	{	
+		game->e_wall = ft_strdup(&(ft_no_spaces(game, i, "EA"))[3]);
+		k = ft_strlen(game->e_wall);
+		game->e_wall[k - 1] = '\0';
+	}
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "F ", 2))
 		game->floor = ft_obtain_color(ft_strdup(ft_no_spaces(game, i, "F")));
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "C ", 2))
 		game->ceiling = ft_obtain_color(ft_strdup(ft_no_spaces(game, i, "C")));
-	//printf("%d\n", game->floor);
 }
 
 void	parser(t_map *game)

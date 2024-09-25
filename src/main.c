@@ -1,4 +1,5 @@
 #include "cub3d.h"
+#include <stdint.h>  // Para uint32_t_t
 #include <sys/time.h> // Para medir el tiempo
 
 // Función para obtener el tiempo en milisegundos
@@ -23,32 +24,8 @@ void createImage(t_map *game)
 {
     if (game->img_p != NULL)
         mlx_destroy_image(game->mlx_p, game->img_p);
-	game->img_p = mlx_new_image(game->mlx_p, mapWidth, mapHeight);
+	game->img_p = mlx_new_image(game->mlx_p, screenWidth, screenHeight);
     game->img_data = mlx_get_data_addr(game->img_p, &game->bpp, &game->size_line, &game->endian);
-}
-
-void drawVerticalLine(t_map *game, int x, int startY, int endY, t_ColorRGB color)
-{
-    //printf("PINTANDO\n");
-	int y = startY;
-	while (y <= endY)
-    {
-        int pixel = (y * game->size_line) + (x * (game->bpp / 8));
-        game->img_data[pixel] = color.b;        // Blue
-        game->img_data[pixel + 1] = color.g;    // Green
-        game->img_data[pixel + 2] = color.r;    // Red
-        game->img_data[pixel + 3] = 0;          // Alpha (transparente en la mayoría de los casos)
-        y++;
-    }
-}
-
-t_ColorRGB divideColorBy(t_ColorRGB color, int divisor)
-{
-    t_ColorRGB result;
-    result.r = color.r / divisor;
-    result.g = color.g / divisor;
-    result.b = color.b / divisor;
-    return result;
 }
 
 void	hit_loop(t_map	*game)
@@ -89,25 +66,6 @@ void init_game_data(t_map *game, int x)
 	game->deltaDistX = (game->rayDirX == 0) ? 1e30 : fabs(1 / game->rayDirX);
 	game->deltaDistY = (game->rayDirY == 0) ? 1e30 : fabs(1 / game->rayDirY);
 	game->hit = 0;
-}
-# define RGB_Red   (t_ColorRGB){255, 0, 0}
-# define RGB_Green (t_ColorRGB){0, 255, 0}
-# define RGB_Blue  (t_ColorRGB){0, 0, 255}
-# define RGB_White (t_ColorRGB){255, 255, 255}
-# define RGB_Yellow (t_ColorRGB){255, 255, 0}
-
-void	ft_switch(t_map	*game)
-{	
-	switch (game->r_map[game->mapX][game->mapY])
-	{
-		case '1':
-			game->color = RGB_Red;
-			break;
-		/*default:
-			game->color = RGB_White;
-			break;*/
-	}
-	//revisar si aixo es valid
 }
 
 void	ft_time_and_vel(t_map *game)
@@ -156,36 +114,68 @@ void	ft_if_case(t_map *game)
 		game->sideDistY = (game->mapY + 1.0 - game->posY) * game->deltaDistY;
 	}
 }
-
-void	game_loop(t_map	*game)
+int	get_pixel(t_image *texture, int x, int y)
 {
-	int x;
-	
-	x = 0;
-	/*while (42)
-	{*/
-		createImage(game); // Crear la imagen en memoria
-		while (x < screenWidth)
-    	{
-        	init_game_data(game, x);
-        	ft_if_case(game);
-			hit_loop(game);
-			if (game->side == 0)
-            	game->perpWallDist = (game->sideDistX - game->deltaDistX);
-        	else
-            	game->perpWallDist = (game->sideDistY - game->deltaDistY);
-			ft_drawStart_drawEnd(game);
-			ft_switch(game);
-			/*if (game->side == 1)
-            	game->color = divideColorBy(game->color, 2);*/
-        	drawVerticalLine(game, x, game->drawStart, game->drawEnd, game->color);
-			x++;
-			ft_time_and_vel(game);
-		}
-    	mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0); // Mostrar la imagen en la ventana
-    	mlx_work_exec(game);
-	//}
+	char	*pixel;
+
+	pixel = texture->addr + (y * texture->size_l + x * (texture->bpp / 8));
+	return (*(int *)pixel);
 }
+
+void	put_color_to_pixel(t_map *game, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = game->img_data + (y * game->size_line + x * (game->bpp / 8));
+	*(unsigned int *)dst = color;
+}
+
+void	draw_back(int width, int height, t_map *game)
+{
+	int	y;
+	int	x;
+	int	color;
+
+	y = 0;
+	while (y < height)
+	{
+		x = 0;
+		while (x < width)
+		{
+			if (y < height / 2)
+				color = game->ceiling;
+			else
+				color = game->floor;
+			put_color_to_pixel(game, x, y, color);
+			x++;
+		}
+		y++;
+	}
+	mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0);
+}
+void	draw_buffer(int width, int height, t_map *game)
+{
+	int	y;
+	int	x;
+	int	color;
+
+	y = 0;
+	draw_back(width, height, game);
+	while (y < height)
+	{
+		x = 0;
+		while (x < width)
+		{
+			color = game->buffer[y][x];
+			if (color != 0)
+				put_color_to_pixel(game, x, y, color);
+			x++;
+		}
+		y++;
+	}
+	mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0); //revisar img_data
+}
+
 void		ft_orientation(t_map *game)
 {
 	if (game->per == 'N')
@@ -218,6 +208,249 @@ void		ft_orientation(t_map *game)
 	}
 
 }
+void	*ft_load_images(t_map *game, int **texture, char *path)
+{
+	int width = texWidth;
+    int height = texHeight;
+	printf("%s\n", path);
+	*texture = mlx_xpm_file_to_image(game->mlx_p, path, &width, &height);
+	if (*texture == NULL)
+	{
+		write(2, "Error generating image\n", 24);
+		exit (1);
+	}
+	return (*texture);
+}
+void	ft_upload_texture(t_map *game, int i)
+{
+	if (i == 0)
+		game->texture[0]->t = ft_strdup(game->n_wall);
+	if (i == 1)
+		game->texture[1]->t = ft_strdup(game->s_wall);
+	if (i == 2)
+		game->texture[2]->t = ft_strdup(game->w_wall);
+	if (i == 3)
+		game->texture[3]->t = ft_strdup(game->e_wall);
+}
+void	ft_init_textures(t_map *game)
+{
+	int		i;
+	int		w;
+	int		h;
+
+	i = 0;
+	w = 64;
+	h = 64;
+
+	while (i < 4)
+	{
+		game->texture[i] = malloc(sizeof(t_image));
+		if (!game->texture[i])
+		{
+			printf("Error\n");
+			//fer free de tota la memoria i exit;
+		}
+		ft_upload_texture(game, i);
+		printf("%s\n", game->texture[i]->t);
+		game->texture[i]->imag = mlx_xpm_file_to_image(game->mlx_p, game->texture[i]->t, &w, &h);
+		if (!game->texture[i]->imag)
+		{
+			printf("Error uploading textures\n");
+			exit(1);
+		}
+		mlx_put_image_to_window(game->mlx_p, game->win_p, game->texture[i]->imag, 64, 64);
+		game->texture[i]->addr = mlx_get_data_addr(game->texture[i]->imag, &game->texture[i]->bpp, &game->texture[i]->size_l, &game->texture[i]->endian);
+		i++;
+		
+	}
+}
+void	ray_dir_and_pos(t_map *game, int x)
+{
+	game->cameraX = 2 * x / (double)screenWidth - 1;
+	game->rayDirX = game->dirX + game->planeX * game->cameraX;
+	game->rayDirY = game->dirY + game->planeY * game->cameraX;
+	game->mapX = (int)game->posX;
+	game->mapY = (int)game->posY;
+	game->sideDistX = 0;
+	game->sideDistY = 0;
+	if (game->rayDirX == 0)
+		game->deltaDistX = 1e30;
+	else
+		game->deltaDistX = fabs(1 / game->rayDirX);
+	if (game->rayDirY == 0)
+		game->deltaDistY = 1e30;
+	else
+		game->deltaDistY = fabs(1 / game->rayDirY);
+	game->perpWallDist = 0;
+	game->stepX = 0;
+	game->stepY = 0;
+	game->hit = 0;
+	game->side = 0;
+}
+void	ray_calc_sidedists(t_map *game)
+{
+	if (game->rayDirX < 0)
+	{
+		game->stepX = -1;
+		game->sideDistX = (game->posX - game->mapX) * game->deltaDistX;
+	}
+	else
+	{
+		game->stepX = 1;
+		game->sideDistX = (game->mapX + 1 - game->posX) * game->deltaDistX;
+	}
+	if (game->rayDirY < 0)
+	{
+		game->stepY = -1;
+		game->sideDistY = (game->posY - game->mapY) * game->deltaDistY;
+	}
+	else
+	{
+		game->stepY = 1;
+		game->sideDistY = (game->mapY + 1 - game->posY) * game->deltaDistY;
+	}
+}
+void	search_orientation(t_map *game)
+{
+	if (game->side == 0)
+	{
+		if (game->stepX > 0)
+			game->hit_dir = S;
+		else
+			game->hit_dir = N;
+	}
+	else
+	{
+		if (game->stepY > 0)
+			game->hit_dir = E;
+		else
+			game->hit_dir = W;
+	}
+}
+void	ray_dda(t_map *game, char **map)
+{
+	while (game->hit == 0)
+	{
+		if (game->sideDistX < game->sideDistY)
+		{
+			game->sideDistX += game->deltaDistX;
+			game->mapX += game->stepX;
+			game->side = 0;
+		}
+		else
+		{
+			game->sideDistY += game->deltaDistY;
+			game->mapY += game->stepY;
+			game->side = 1;
+		}
+		if (map[game->mapX][game->mapY] == '1')
+		{
+			game->hit = 1;
+			search_orientation(game);
+		}
+	}
+	if (game->side == 0)
+		game->perpWallDist = game->sideDistX - game->deltaDistX;
+	else
+		game->perpWallDist = game->sideDistY - game->deltaDistY;
+}
+
+void	calc_textures(t_texture *t, t_map *game, int line_heigth, int start)
+{
+	t->num = game->r_map[game->mapX][game->mapY] - 1;
+	if (game->side == 0)
+		t->wall_x = game->posY + game->perpWallDist * game->rayDirY;
+	else
+		t->wall_x = game->posX + game->perpWallDist * game->rayDirX;
+	t->wall_x -= floor(t->wall_x);
+	t->x = (int)(t->wall_x * (double)texWidth);
+	if (game->side == 0 && game->rayDirX > 0)
+		t->x = texWidth - t->x - 1;
+	if (game->side == 1 && game->rayDirY < 0)
+		t->x = texWidth - t->x - 1;
+	t->step = 1.0 * texHeight / line_heigth;
+	t->pos = (start - screenHeight / 2 + line_heigth / 2) * t->step;
+}
+
+void	fill_buffer(int start, int end, t_map *game, int x)
+{
+	int	color;
+	int	j;
+
+	j = start;
+	game->tex.num = game->hit_dir;
+	while (j < end)
+	{
+		game->tex.y = (int)game->tex.pos & (texHeight - 1);
+		game->tex.pos += game->tex.step;
+		game->tex.x = (int)(game->tex.wall_x * (double)texWidth);
+		color = get_pixel(game->texture[game->tex.num], game->tex.x, game->tex.y);
+		if (color < 0)
+			color = color * -1;
+		if (game->side == 1)
+			color = (color >> 1) & 8355711;
+		game->buffer[j][x] = color;
+		j++;
+	}
+}
+void	prepare_draw_cub(t_map *game, int x)
+{
+	int	line_heigth;
+	int	draw_start;
+	int	draw_end;
+
+	line_heigth = (int)(screenHeight / game->perpWallDist);
+	draw_start = -line_heigth / 2 + screenHeight / 2;
+	if (draw_start < 0)
+		draw_start = 0;
+	draw_end = line_heigth / 2 + screenHeight / 2;
+	if (draw_end >= screenHeight)
+		draw_end = screenHeight - 1;
+	calc_textures(&game->tex, game, line_heigth, draw_start);
+	fill_buffer(draw_start, draw_end, game, x);
+}
+void	clean_buffer(t_map *game, int w, int h)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < h)
+	{
+		x = 0;
+		while (x < w)
+		{
+			game->buffer[y][x] = 0;
+			x++;
+		}
+		y++;
+	}
+}
+int	draw_cub(t_map *game)
+{
+	int	x;
+	int	w;
+	int	h;
+
+	w = screenWidth;
+	h = screenHeight;
+	x = 0;
+	mlx_clear_window(game->mlx_p, game->win_p);
+	createImage(game);
+	while (x < screenWidth)
+	{
+		ray_dir_and_pos(game, x);
+		ray_calc_sidedists(game);
+		ray_dda(game, game->r_map);
+		prepare_draw_cub(game, x);
+		x++;
+	}
+	draw_buffer(screenWidth, screenHeight, game);
+	clean_buffer(game, screenWidth, screenHeight);
+	/*cub->ray.move_speed = MOVE_SPEED;
+	cub->ray.rot_speed = ROT_SPEED;*/
+	return (0); //revisar
+}
 int	main(int argc, char **argv)
 {
 	t_map	game;
@@ -228,15 +461,10 @@ int	main(int argc, char **argv)
 	parser(&game);
 	int i = 0;
 	int j = 0;
-	game.oldTime = getTicks();
-// x and y player's start position;
+	game.oldTime = getTicks(); // revisar
 	game.posX = game.x;
 	game.posY = game.y;
-//initial direction vector;
 	ft_orientation(&game);
-	//printf("%d\n", game.width);
-	//printf("%d\n", game.height);
-	//printf("PER: %c\n", game.per);
 	game.r_map = (char	**)malloc(game.height * sizeof(char *));
 	if (game.r_map == NULL)
 		printf("Null game.r_map\n");
@@ -256,21 +484,18 @@ int	main(int argc, char **argv)
 	{
 		while(game.map[i][j] != 10)
 		{
-			//printf("%c", game.map[i][j]);
 			game.r_map[p][j] = game.map[i][j];
-			//printf("%c", game.r_map[p][j]);
 			j++;
 		}
-		//printf("\n");
 		i++;
 		p++;
 		j = 0;
 	}
 	i = 0;
 	j = 0;
-	//printf("asdasaasa %d\n", game.r_map[i][j]);
 	game.mlx_p = mlx_init();
 	game.win_p = mlx_new_window(game.mlx_p, screenWidth, screenHeight, "cub3d");
-	game_loop(&game);
+	ft_init_textures(&game);
+	mlx_work_exec(&game);
 	return (0);
 }
