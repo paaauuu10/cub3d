@@ -434,7 +434,6 @@ int	draw_cub(t_map *game)
 	w = screenWidth;
 	h = screenHeight;
 	x = 0;
-	createImage(game);
 	while (x < screenWidth)
 	{
 		ray_dir_and_pos(game, x);
@@ -444,9 +443,9 @@ int	draw_cub(t_map *game)
 		x++;
 	}
 	draw_buffer(screenWidth, screenHeight, game);
-	clean_buffer(game, screenWidth, screenHeight);
-	mlx_clear_window(game->mlx_p, game->win_p);
 	mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0);
+	clean_buffer(game, screenWidth, screenHeight);
+	//mlx_clear_window(game->mlx_p, game->win_p);
 	/*cub->ray.move_speed = MOVE_SPEED;
 	cub->ray.rot_speed = ROT_SPEED;*/
 	return (0); //revisar
@@ -496,6 +495,7 @@ int	main(int argc, char **argv)
 	game.mlx_p = mlx_init();
 	game.win_p = mlx_new_window(game.mlx_p, screenWidth, screenHeight, "cub3d");
 	ft_init_textures(&game);
+	createImage(&game);
 	mlx_work_exec(&game);
 	return (0);
 }

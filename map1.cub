@@ -1,7 +1,7 @@
-NO ./Textures/green2.xpm
-SO ./Textures/greystone.xpm
-WE ./Textures/green2.xpm
-EA ./Textures/greystone.xpm
+NO ./Textures/wolftex/wood.xpm
+SO ./Textures/wolftex/greystone.xpm
+WE ./Textures/wolftex/wood.xpm
+EA ./Textures/wolftex/greystone.xpm
 F 200,200,200
 C 225,30,0
 111111
