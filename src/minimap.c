@@ -15,9 +15,9 @@
 int	get_color(char c)
 {
 	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
-		return (0xFFFFFF);
+		return (0xE0E0E0);
 	else
-		return (0x60C0C0C0);
+		return (0xA9A9A9);
 }
 
 void	draw_tile(t_map *game, int x, int y, int color)
@@ -48,8 +48,6 @@ int	get_tile_color(t_map *game, int i, int j)
 	if (j >= 0 && (unsigned long)j < ft_strlen(game->map_pos[i]))
 		tile = game->map_pos[i][j];
 	color = get_color(tile);
-	/*if (game->y == i && game->x == j)
-		color = 0xFFFF0000;*/
 	return (color);
 }
 
@@ -61,7 +59,6 @@ void	ft_draw_map_aux(t_map *game)
 	int		color;
 
 	i = game->start_y;
-	i = 0;
 	while (i < game->start_y + MINIMAP_SIZE && i < game->height)
 	{
 		game->current_x = MINIMAP_OFFSET_X;
@@ -72,8 +69,6 @@ void	ft_draw_map_aux(t_map *game)
 			if (j >= 0 && (unsigned long)j < ft_strlen(game->map_pos[i]))
 				tile = game->map_pos[i][j];
 			color = get_color(tile);
-		/*	if (game->y == i && game->x == j)
-				color = 0xFFFF0000;*/
 			draw_tile(game, game->current_x, game->current_y, color);
 			game->current_x += TILE_SIZE;
 			j++;

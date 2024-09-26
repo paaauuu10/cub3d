@@ -185,18 +185,19 @@ int		calculate_start_x(t_map *game);
 int		calculate_start_y(t_map *game);
 void	draw_map(t_map *game);
 void	ft_draw_player(t_map *game, int flag);
-void	ft_draw_big_map(t_map *game);
 int		ft_obtain_color(char *s);
 int		calc_width(t_map *game, char *s);
 int		handle_key(int keycode, t_map *game);
 void	game_loop(t_map	*game);
 int		draw_cub(t_map *game);
+void	ft_draw_lines(t_map *game);
 
 
-# define TILE_SIZE 15
-# define MINIMAP_SIZE 15
-# define MINIMAP_PIXEL_SIZE 225
+# define TILE_SIZE 32
+# define MINIMAP_SIZE 6
+# define MINIMAP_PIXEL_SIZE 192
 # define MINIMAP_OFFSET_X 10
 # define MINIMAP_OFFSET_Y 10
+
 
 #endif

@@ -49,11 +49,15 @@ int	ft_obtain_color(char *s)
 	red = num;
 	num = 0;
 	i++;
+	while (ft_isspace(s[i]))
+		i++;
 	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
 		num = num * 10 + (s[i++] - '0');
 	green = num;
 	num = 0;
 	i++;
+	while (ft_isspace(s[i]))
+		i++;
 	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
 		num = num * 10 + (s[i++] - '0');
 	blue = num;

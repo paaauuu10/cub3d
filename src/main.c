@@ -145,7 +145,11 @@ void	draw_back(int width, int height, t_map *game)
 			if (y < height / 2)
 				color = game->ceiling;
 			else
+			{	
 				color = game->floor;
+
+				//printf("%d\n", color);
+			}
 			put_color_to_pixel(game, x, y, color);
 			x++;
 		}
@@ -183,27 +187,27 @@ void		ft_orientation(t_map *game)
 		game->dirX = -1;
 		game->dirY = 0;
 		game->planeX = 0;
-		game->planeY = 0.66;
+		game->planeY = 0.80;
 	}
 	else if (game->per == 'S')
 	{
 		game->dirX = 1;
 		game->dirY = 0;
 		game->planeX = 0;
-		game->planeY = -0.66;
+		game->planeY = -0.80;
 	}
 	else if (game->per == 'E')
 	{
 		game->dirX = 0;
 		game->dirY = -1;
-		game->planeX = -0.66;
+		game->planeX = -0.80;
 		game->planeY = 0;
 	}
 	if (game->per == 'W')
 	{
 		game->dirX = 0;
 		game->dirY = 1;
-		game->planeX = 0.66;
+		game->planeX = 0.80;
 		game->planeY = 0;
 	}
 
@@ -342,7 +346,7 @@ void	ray_dda(t_map *game, char **map)
 			game->mapY += game->stepY;
 			game->side = 1;
 		}
-		if (map[game->mapX][game->mapY] == '1')
+		if (map[game->mapY][game->mapX] == '1')
 		{
 			game->hit = 1;
 			search_orientation(game);
@@ -356,7 +360,7 @@ void	ray_dda(t_map *game, char **map)
 
 void	calc_textures(t_texture *t, t_map *game, int line_heigth, int start)
 {
-	t->num = game->r_map[game->mapX][game->mapY] - 1;
+	t->num = game->r_map[game->mapY][game->mapX] - 1;
 	if (game->side == 0)
 		t->wall_x = game->posY + game->perpWallDist * game->rayDirY;
 	else
@@ -462,7 +466,7 @@ int	main(int argc, char **argv)
 	int j = 0;
 	game.oldTime = getTicks(); // revisar
 	game.posX = game.x;
-	game.posY = game.y;
+	game.posY = game.y + 0.1;
 	ft_orientation(&game);
 	game.r_map = (char	**)malloc(game.height * sizeof(char *));
 	if (game.r_map == NULL)
@@ -494,8 +498,13 @@ int	main(int argc, char **argv)
 	j = 0;
 	game.mlx_p = mlx_init();
 	game.win_p = mlx_new_window(game.mlx_p, screenWidth, screenHeight, "cub3d");
+	game.x_pos = game.x * 32 + 22;
+	game.y_pos = game.y * 32 + 22;
 	ft_init_textures(&game);
 	createImage(&game);
+	/*draw_map(&game);
+    ft_draw_lines(&game);
+    ft_draw_player(&game, 0);*/
 	mlx_work_exec(&game);
 	return (0);
 }
