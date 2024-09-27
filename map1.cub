@@ -1,12 +1,12 @@
 NO ./Textures/wolftex/wood.xpm
-SO ./Textures/wolftex/greystone.xpm
-WE ./Textures/wolftex/wood.xpm
+SO ./Textures/wolftex/redbrick.xpm
+WE ./Textures/wolftex/copy.xpm
 EA ./Textures/wolftex/greystone.xpm
 F 200,200,200
 C 225,30,0
 111111
 100101
 100001
-100N01
+100W01
 100001
 111111

@@ -45,17 +45,17 @@ int handle_key(int keycode, t_map *game)
     // Movimiento hacia adelante (tecla W)
     if (keycode == 119)  // 13 es el código de la tecla W en MinilibX
     {
-        if (game->r_map[(int)(game->posY + game->dirY * moveSpeed)][(int)(game->posX)] != '1')
+        if (game->r_map[(int)(game->posY + game->dirY * moveSpeed)][(int)(game->posX )] != '1')
             game->posY += game->dirY * moveSpeed;
-        if (game->r_map[(int)(game->posY)][(int)(game->posX + game->dirX * moveSpeed)] != '1')
+        if (game->r_map[(int)(game->posY)][(int)(game->posX  + game->dirX * moveSpeed)] != '1')
             game->posX += game->dirX * moveSpeed;
     }
     // Movimiento hacia atrás (tecla S)
     else if (keycode == 115)  // 1 es el código de la tecla S
     {
-        if (game->r_map[(int)(game->posY - game->dirY * moveSpeed)][(int)(game->posX)] != '1')
+        if (game->r_map[(int)(game->posY - game->dirY * moveSpeed)][(int)(game->posX )] != '1')
             game->posY -= game->dirY * moveSpeed;
-        if (game->r_map[(int)(game->posY)][(int)(game->posX - game->dirX * moveSpeed)] != '1')
+        if (game->r_map[(int)(game->posY)][(int)(game->posX  - game->dirX * moveSpeed)] != '1')
             game->posX -= game->dirX * moveSpeed;
 	}
     // Movimiento hacia derecha (tecla D)
@@ -63,7 +63,7 @@ int handle_key(int keycode, t_map *game)
     {
         if (game->r_map[(int)(game->posY + game->planeY * moveSpeed)][(int)(game->posX)] != '1')
             game->posY += game->planeY * moveSpeed;
-        if (game->r_map[(int)(game->posY)][(int)(game->posX + game->planeX * moveSpeed)] != '1')
+        if (game->r_map[(int)(game->posY)][(int)(game->posX  + game->planeX * moveSpeed)] != '1')
             game->posX += game->planeX * moveSpeed;
     }
     // Movimiento hacia izq (tecla A)
@@ -71,11 +71,11 @@ int handle_key(int keycode, t_map *game)
     {
         if (game->r_map[(int)(game->posY - game->planeY * moveSpeed)][(int)(game->posX)] != '1')
             game->posY -= game->planeY * moveSpeed;
-        if (game->r_map[(int)(game->posY)][(int)(game->posX - game->planeX * moveSpeed)] != '1')
+        if (game->r_map[(int)(game->posY)][(int)(game->posX  - game->planeX * moveSpeed)] != '1')
             game->posX -= game->planeX * moveSpeed;
     }
     // Rotar a la derecha (tecla ->)
-    else if (keycode == 65363)  
+    else if (keycode == 65361)  
     {
         double oldDirX = game->dirX;
         game->dirX = game->dirX * cos(-rotSpeed) - game->dirY * sin(-rotSpeed);
@@ -85,7 +85,7 @@ int handle_key(int keycode, t_map *game)
         game->planeY = oldPlaneX * sin(-rotSpeed) + game->planeY * cos(-rotSpeed);
     }
     // Rotar a la izquierda (tecla <-)
-    else if (keycode == 65361)
+    else if (keycode == 65363)
     {
         double oldDirX = game->dirX;
         game->dirX = game->dirX * cos(rotSpeed) - game->dirY * sin(rotSpeed);

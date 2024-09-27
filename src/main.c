@@ -81,16 +81,6 @@ void	ft_time_and_vel(t_map *game)
 	game->rotSpeed = game->frameTime * 3.0;  // Velocidad de rotación en radianes/segundo
 }
 
-void	ft_drawStart_drawEnd(t_map *game)
-{
-	game->lineHeight = (int)(screenHeight / (game->perpWallDist + 0.5));
-	game->drawStart = -game->lineHeight / 2 + screenHeight / 2;
-	if (game->drawStart < 0)
-		game->drawStart = 0;
-	game->drawEnd = game->lineHeight / 2 + screenHeight / 2;
-	if (game->drawEnd >= screenHeight)
-		game->drawEnd = screenHeight - 1;	
-}
 void	ft_if_case(t_map *game)
 {
 	if (game->rayDirX < 0)
@@ -142,7 +132,7 @@ void	draw_back(int width, int height, t_map *game)
 		x = 0;
 		while (x < width)
 		{
-			if (y < height / 2)
+			if (y < (height >> 1) /*/ 2*/)
 				color = game->ceiling;
 			else
 			{	
@@ -184,33 +174,32 @@ void		ft_orientation(t_map *game)
 {
 	if (game->per == 'N')
 	{
-		game->dirX = -1;
-		game->dirY = 0;
-		game->planeX = 0;
-		game->planeY = 0.80;
-	}
-	else if (game->per == 'S')
-	{
-		game->dirX = 1;
-		game->dirY = 0;
-		game->planeX = 0;
-		game->planeY = -0.80;
-	}
-	else if (game->per == 'E')
-	{
-		game->dirX = 0;
 		game->dirY = -1;
-		game->planeX = -0.80;
-		game->planeY = 0;
-	}
-	if (game->per == 'W')
-	{
 		game->dirX = 0;
-		game->dirY = 1;
 		game->planeX = 0.80;
 		game->planeY = 0;
 	}
-
+	else if (game->per == 'S')
+	{
+		game->dirY = 1;
+		game->dirX = 0;
+		game->planeX = -0.80;
+		game->planeY = 0;
+	}
+	else if (game->per == 'E')
+	{
+		game->dirY = 0;
+		game->dirX = 1;
+		game->planeX = 0;
+		game->planeY = 0.80;
+	}
+	else if (game->per == 'W')
+	{
+		game->dirY = 0;
+		game->dirX = -1;
+		game->planeX = 0;
+		game->planeY = -0.80;
+	}
 }
 void	*ft_load_images(t_map *game, int **texture, char *path)
 {
@@ -318,16 +307,16 @@ void	search_orientation(t_map *game)
 	if (game->side == 0)
 	{
 		if (game->stepX > 0)
-			game->hit_dir = S;
+			game->hit_dir = E;
 		else
-			game->hit_dir = N;
+			game->hit_dir = W;
 	}
 	else
 	{
 		if (game->stepY > 0)
-			game->hit_dir = E;
+			game->hit_dir = S;
 		else
-			game->hit_dir = W;
+			game->hit_dir = N;
 	}
 }
 void	ray_dda(t_map *game, char **map)
@@ -372,7 +361,7 @@ void	calc_textures(t_texture *t, t_map *game, int line_heigth, int start)
 	if (game->side == 1 && game->rayDirY < 0)
 		t->x = texWidth - t->x - 1;
 	t->step = 1.0 * texHeight / line_heigth;
-	t->pos = (start - screenHeight / 2 + line_heigth / 2) * t->step;
+	t->pos = (start - (screenHeight >> 1) /*/ 2*/ + (line_heigth >> 1) /*/ 2*/) * t->step;
 }
 
 void	fill_buffer(int start, int end, t_map *game, int x)
@@ -403,10 +392,10 @@ void	prepare_draw_cub(t_map *game, int x)
 	int	draw_end;
 
 	line_heigth = (int)(screenHeight / game->perpWallDist);
-	draw_start = -line_heigth / 2 + screenHeight / 2;
+	draw_start = (-line_heigth >> 1 ) /*/ 2*/ + (screenHeight >> 1) /*/ 2*/;
 	if (draw_start < 0)
 		draw_start = 0;
-	draw_end = line_heigth / 2 + screenHeight / 2;
+	draw_end = (line_heigth >> 1 ) /*/ 2*/ + (screenHeight >> 1) /*/ 2*/;
 	if (draw_end >= screenHeight)
 		draw_end = screenHeight - 1;
 	calc_textures(&game->tex, game, line_heigth, draw_start);
@@ -465,8 +454,8 @@ int	main(int argc, char **argv)
 	int i = 0;
 	int j = 0;
 	game.oldTime = getTicks(); // revisar
-	game.posX = game.x;
-	game.posY = game.y + 0.1;
+	game.posX = game.x + 0.5;
+	game.posY = game.y + 0.5;
 	ft_orientation(&game);
 	game.r_map = (char	**)malloc(game.height * sizeof(char *));
 	if (game.r_map == NULL)
