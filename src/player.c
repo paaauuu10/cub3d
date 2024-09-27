@@ -48,7 +48,7 @@ void	ft_draw_player(t_map *game, int flag)
 		draw_square(game->mlx_p, game->win_p, game->y_posl, game->x_posl, 9, 0xFFFFFF);
 	draw_square(game->mlx_p, game->win_p, game->y_pos, game->x_pos, 9, 0xFF0000);*/
 	
-	mlx_put_image_to_window(game->mlx_p, game->win_p, img, game->y_pos, game->x_pos);
+	mlx_put_image_to_window(game->mlx_p, game->win_p, img, game->x_pos, game->y_pos);
 	game->x_posl = game->x_pos;
 	game->y_posl = game->y_pos;
 }

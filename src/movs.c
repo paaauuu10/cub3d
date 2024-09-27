@@ -39,8 +39,8 @@ int	destroy_game(t_map *game)
 }
 int handle_key(int keycode, t_map *game)
 {
-    double moveSpeed = 0.15;  // Velocidad de movimiento
-    double rotSpeed = 0.15;   // Velocidad de rotación
+    double moveSpeed = 0.17;  // Velocidad de movimiento
+    double rotSpeed = 0.17;   // Velocidad de rotación
 
     // Movimiento hacia adelante (tecla W)
     if (keycode == 119)  // 13 es el código de la tecla W en MinilibX

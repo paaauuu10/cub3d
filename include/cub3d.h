@@ -33,8 +33,8 @@ typedef struct s_ColorRGB
 
 
 
-# define screenWidth 	640
-# define screenHeight 	480
+# define screenWidth 	1280
+# define screenHeight 	960
 # define texWidth 		64
 # define texHeight 		64
 # define N 0

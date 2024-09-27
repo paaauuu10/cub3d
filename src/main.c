@@ -447,7 +447,8 @@ int	main(int argc, char **argv)
 {
 	t_map	game;
 
-	(void)argc;
+	if (argc != 2)
+		return(1);
 	ft_bzero(&game, sizeof(t_map));
 	map_reading(&game, argv);
 	parser(&game);
@@ -491,6 +492,13 @@ int	main(int argc, char **argv)
 	game.y_pos = game.y * 32 + 22;
 	ft_init_textures(&game);
 	createImage(&game);
+	int	width = 1280;
+	int	height = 960;
+	void	*im;
+	im = mlx_xpm_file_to_image(game.mlx_p, "./Textures/portada.xpm", &width, &height);
+	mlx_put_image_to_window(game.mlx_p, game.win_p, im, 0, 0);
+
+	//draw_cub(&game);
 	/*draw_map(&game);
     ft_draw_lines(&game);
     ft_draw_player(&game, 0);*/
