@@ -12,44 +12,45 @@
 
 #include "cub3d.h"
 
-void	draw_square(void *mlx_ptr, void *win_ptr, int x, int y, int size, int color)
+void	draw_square(void *mlx_ptr, void *win_ptr, int x, int y)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
+	int	size;
 
-    i = 0;
+	size = 9;
+	i = 0;
 	while (i < size)
 	{
 		j = 0;
-		while(j < size)
-        {
-			mlx_pixel_put(mlx_ptr, win_ptr, x + i, y + j, color);
-        	j++;
+		while (j < size)
+		{
+			mlx_pixel_put(mlx_ptr, win_ptr, x + i, y + j, 0xFF0000);
+			j++;
 		}
-   		i++;
-   	}
-
+		i++;
+	}
 }
-
-
 
 void	ft_draw_player(t_map *game, int flag)
 {
-	
-	int	x = 9;
-	int i = 9;
-	void	*img;
-	img = mlx_xpm_file_to_image(game->mlx_p, "./Textures/player.xpm", &x, &i);
-	if (!img)
-		printf("Error\n");
-	game->x_pos = game->posX * 32 + 10;
-	game->y_pos = game->posY * 32 + 10;
-	/*if (flag == 1)
-		draw_square(game->mlx_p, game->win_p, game->y_posl, game->x_posl, 9, 0xFFFFFF);
-	draw_square(game->mlx_p, game->win_p, game->y_pos, game->x_pos, 9, 0xFF0000);*/
-	
-	mlx_put_image_to_window(game->mlx_p, game->win_p, img, game->x_pos, game->y_pos);
-	game->x_posl = game->x_pos;
-	game->y_posl = game->y_pos;
+	int	mx;
+	int	my;
+
+	game->x_pos = game->posX * 32 + 7;
+	game->y_pos = game->posY * 32 + 7;
+
+	if (game->width > MINIMAP_SIZE)
+		mx = (game->x_pos -(game->start_x * TILE_SIZE)) + MINIMAP_OFFSET_X - 10;
+	else
+		mx = game->x_pos + MINIMAP_OFFSET_X - 10;
+	if (game->height > MINIMAP_SIZE)
+		my = (game->y_pos -(game->start_y * TILE_SIZE)) + MINIMAP_OFFSET_Y - 10;
+	else
+		my = game->y_pos + MINIMAP_OFFSET_Y - 10;
+	draw_square(game->mlx_p, game->win_p, mx, my);
+	game->x_posl = mx;
+	game->y_posl = my;
+	flag = 0;
 }
 	

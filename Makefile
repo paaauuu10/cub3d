@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3d
+NAME = cub3D
 
 GREEN = \033[1;32m
 YELLOW = \033[1;33m
@@ -20,7 +20,7 @@ MAGENTA = \033[1;35m
 BLUE = \033[38;5;75m
 ORIGINAL = \033[0m
 
-CFLAGS = -Wall -Wno-unused-variable -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
 INCS = -I./include/ -I./include/Libft
 LIBFTA = -L./include/libft -lft

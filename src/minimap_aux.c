@@ -16,20 +16,20 @@ int	calculate_start_x(t_map *game)
 {
 	if (game->width <= MINIMAP_SIZE)
 		return (0);
-	if (game->x < MINIMAP_SIZE / 2)
+	if (game->posX < (MINIMAP_SIZE >> 1))
 		return (0);
-	else if (game->x + MINIMAP_SIZE / 2 > game->width)
+	else if (game->posX + (MINIMAP_SIZE >> 1) > game->width)
 		return (game->width - MINIMAP_SIZE);
-	return (game->x - MINIMAP_SIZE / 2);
+	return (game->posX - (MINIMAP_SIZE >> 1));
 }
 
 int	calculate_start_y(t_map *game)
 {
 	if (game->height <= MINIMAP_SIZE)
 		return (0);
-	if (game->y < MINIMAP_SIZE / 2)
+	if (game->posY < (MINIMAP_SIZE >> 1))
 		return (0);
-	else if (game->y + MINIMAP_SIZE / 2 > game->height)
+	else if (game->posY + (MINIMAP_SIZE >> 1) > game->height)
 		return (game->height - MINIMAP_SIZE);
-	return (game->y - MINIMAP_SIZE / 2);
+	return (game->posY - (MINIMAP_SIZE >> 1));
 }

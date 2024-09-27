@@ -22,8 +22,6 @@ void printFPS(double frameTime)
 
 void createImage(t_map *game)
 {
-    if (game->img_p != NULL)
-        mlx_destroy_image(game->mlx_p, game->img_p);
 	game->img_p = mlx_new_image(game->mlx_p, screenWidth, screenHeight);
     game->img_data = mlx_get_data_addr(game->img_p, &game->bpp, &game->size_line, &game->endian);
 }
@@ -234,26 +232,17 @@ void	ft_init_textures(t_map *game)
 	i = 0;
 	w = 64;
 	h = 64;
-
 	while (i < 4)
 	{
 		game->texture[i] = malloc(sizeof(t_image));
 		if (!game->texture[i])
-		{
-			printf("Error\n");
-			//fer free de tota la memoria i exit;
-		}
+			ft_exit(game, "P*** is forbidden.");
 		ft_upload_texture(game, i);
-		printf("%s\n", game->texture[i]->t);
 		game->texture[i]->imag = mlx_xpm_file_to_image(game->mlx_p, game->texture[i]->t, &w, &h);
 		if (!game->texture[i]->imag)
-		{
-			printf("Error uploading textures\n");
-			exit(1);
-		}
+			ft_exit(game, "Error uploading textures");
 		game->texture[i]->addr = mlx_get_data_addr(game->texture[i]->imag, &game->texture[i]->bpp, &game->texture[i]->size_l, &game->texture[i]->endian);
 		i++;
-		
 	}
 }
 void	ray_dir_and_pos(t_map *game, int x)
@@ -445,39 +434,40 @@ int	draw_cub(t_map *game)
 }
 int	main(int argc, char **argv)
 {
-	t_map	game;
+	t_map	*game;
 
+	game = (t_map *)malloc(sizeof(t_map));
 	if (argc != 2)
 		return(1);
-	ft_bzero(&game, sizeof(t_map));
-	map_reading(&game, argv);
-	parser(&game);
+	ft_bzero( game, sizeof(t_map));
+	map_reading( game, argv);
+	parser( game);
 	int i = 0;
 	int j = 0;
-	game.oldTime = getTicks(); // revisar
-	game.posX = game.x + 0.5;
-	game.posY = game.y + 0.5;
-	ft_orientation(&game);
-	game.r_map = (char	**)malloc(game.height * sizeof(char *));
-	if (game.r_map == NULL)
-		printf("Null game.r_map\n");
+	 game->oldTime = getTicks(); // revisar
+	 game->posX =  game->x + 0.5;
+	 game->posY =  game->y + 0.5;
+	ft_orientation( game);
+	 game->r_map = (char	**)malloc( game->height * sizeof(char *));
+	if ( game->r_map == NULL)
+		printf("Null  game->r_map\n");
 	i = 0;
-	while(i < game.height)
+	while(i <  game->height)
 	{
-		game.r_map[i] = (char *)malloc(game.width * sizeof(char) + 1);
-		if (game.r_map[i] == NULL)
-			printf("game.r_map[i] == NULL\n");
+		 game->r_map[i] = (char *)malloc( game->width * sizeof(char) + 1);
+		if ( game->r_map[i] == NULL)
+			printf(" game->r_map[i] == NULL\n");
 		i++;
 	}
-	i = game.map_coor;
+	i =  game->map_coor;
 	j = 0;
 	int p = 0;
 
-	while (i < game.height + game.map_coor)
+	while (i <  game->height +  game->map_coor)
 	{
-		while(game.map[i][j] != 10)
+		while(game->map[i][j] != '\0' && game->map[i][j] != '\n')
 		{
-			game.r_map[p][j] = game.map[i][j];
+			 game->r_map[p][j] =  game->map[i][j];
 			j++;
 		}
 		i++;
@@ -486,22 +476,15 @@ int	main(int argc, char **argv)
 	}
 	i = 0;
 	j = 0;
-	game.mlx_p = mlx_init();
-	game.win_p = mlx_new_window(game.mlx_p, screenWidth, screenHeight, "cub3d");
-	game.x_pos = game.x * 32 + 22;
-	game.y_pos = game.y * 32 + 22;
-	ft_init_textures(&game);
-	createImage(&game);
+	 game->mlx_p = mlx_init();
+	 game->win_p = mlx_new_window( game->mlx_p, screenWidth, screenHeight, "cub3d");
+	ft_init_textures( game);
+	createImage( game);
 	int	width = 1280;
 	int	height = 960;
 	void	*im;
-	im = mlx_xpm_file_to_image(game.mlx_p, "./Textures/portada.xpm", &width, &height);
-	mlx_put_image_to_window(game.mlx_p, game.win_p, im, 0, 0);
-
-	//draw_cub(&game);
-	/*draw_map(&game);
-    ft_draw_lines(&game);
-    ft_draw_player(&game, 0);*/
-	mlx_work_exec(&game);
+	im = mlx_xpm_file_to_image( game->mlx_p, "./Textures/portada.xpm", &width, &height);
+	mlx_put_image_to_window( game->mlx_p,  game->win_p, im, 0, 0);
+	mlx_work_exec( game);
 	return (0);
 }

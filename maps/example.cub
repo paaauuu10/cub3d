@@ -1,8 +1,8 @@
-NO ./../cub3_bo/Textures/wolftex/wood.xpm
-SO ./../cub3_bo/Textures/wolftex/greystone.xpm
-WE ./../cub3_bo/Textures/wolftex/redbrick.xpm
-EA ./../cub3_bo/Textures/wolftex/bluestone.xpm
-F 139, 69, 19
+NO ./Textures/wolftex/wood.xpm
+SO ./Textures/wolftex/greystone.xpm
+WE ./Textures/wolftex/redbrick.xpm
+EA ./Textures/wolftex/bluestone.xpm
+F 139,69,19
 C 135,206,235
 
 

@@ -21,12 +21,13 @@ int	ft_exit(t_map *game, char *s)
 		mlx_destroy_window(game->mlx_p, game->win_p);
 	if (game->mlx_p)
 		free(game->mlx_p);
-	while (line <= game->height && game->map && game->map[line])
+	while (game->map && game->map[line])
 		free(game->map[line++]);
 	if (game->map)
 		free(game->map);
 	game->map = NULL;
+	line = 0;
 	if (s)
-		printf("Exit\n%s\n", s);
-	exit(0);
+		printf("Error\n%s\n", s);
+	exit(1);
 }

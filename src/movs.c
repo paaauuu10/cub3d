@@ -12,31 +12,6 @@
 
 #include "cub3d.h"
 
-int	destroy_game(t_map *game)
-{
-	int	i;
-
-	i = 0;
-	/*while (i < 4)
-	{
-		if (game->texture[i])
-			free(game->texture[i]);
-		if (game->t[i])
-			free(game->t[i]);
-		i++;
-	}
-	if (game->map.mapping)
-		free(game->map.mapping);*/
-	if (game->img_p)
-		mlx_destroy_image(game->mlx_p, game->img_p);
-	/*if (game->mlx->win)
-		mlx_destroy_window(game->mlx->mlx_ptr, game->mlx->win);
-	if (game->mlx)
-		free(game->mlx);*/
-	//free(cub);
-	//cub = NULL;
-	exit(1);
-}
 int handle_key(int keycode, t_map *game)
 {
     double moveSpeed = 0.17;  // Velocidad de movimiento
@@ -96,12 +71,12 @@ int handle_key(int keycode, t_map *game)
     }
     // Cerrar la ventana con tecla ESC
     else if (keycode == 65307)  // 53 es el código de la tecla ESC en MinilibX
-        destroy_game(game);
+        ft_exit(game, "No puede ser que quieras dejar de jugar");
     //mlx_clear_window(game->mlx_p, game->win_p);
     draw_cub(game);
-    /*draw_map(game);
+    draw_map(game);
     ft_draw_lines(game);
-    ft_draw_player(game, 1);*/
+    ft_draw_player(game, 1);
     return 0;
 }
 
