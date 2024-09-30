@@ -39,7 +39,6 @@ void	ft_draw_player(t_map *game, int flag)
 
 	game->x_pos = game->posX * 32 + 7;
 	game->y_pos = game->posY * 32 + 7;
-
 	if (game->width > MINIMAP_SIZE)
 		mx = (game->x_pos -(game->start_x * TILE_SIZE)) + MINIMAP_OFFSET_X - 10;
 	else
@@ -53,4 +52,3 @@ void	ft_draw_player(t_map *game, int flag)
 	game->y_posl = my;
 	flag = 0;
 }
-	

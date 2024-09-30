@@ -24,15 +24,6 @@
 # include <stdint.h>
 #include <sys/time.h> // Para medir el tiempo
 
-typedef struct s_ColorRGB 
-{
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
-}	t_ColorRGB;
-
-
-
 # define screenWidth 	1280
 # define screenHeight 	960
 # define texWidth 		64
@@ -41,7 +32,18 @@ typedef struct s_ColorRGB
 # define S 1
 # define W 2
 # define E 3
+# define TILE_SIZE 32
+# define MINIMAP_SIZE 6
+# define MINIMAP_PIXEL_SIZE 192
+# define MINIMAP_OFFSET_X 10
+# define MINIMAP_OFFSET_Y 10
 
+typedef struct s_ColorRGB 
+{
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+}	t_ColorRGB;
 
 typedef struct s_texture
 {
@@ -169,6 +171,7 @@ typedef struct s_map
 	double		texPos;
 	uint32_t	color_2;
 	t_texture	tex;
+	void		*im;
 }	t_map;
 
 
@@ -192,12 +195,33 @@ void	game_loop(t_map	*game);
 int		ft_draw_cub(t_map *game);
 void	ft_draw_lines(t_map *game);
 
+/*---------------------- TEXTURES -----------------------*/
+void	ft_first_image(t_map *game);
+void	ft_init_textures(t_map *game);
 
-# define TILE_SIZE 32
-# define MINIMAP_SIZE 6
-# define MINIMAP_PIXEL_SIZE 192
-# define MINIMAP_OFFSET_X 10
-# define MINIMAP_OFFSET_Y 10
+/*--------------------- RAYCASTING ----------------------*/
+int	ft_draw_cub(t_map *game);
+
+/*--------------------- BUFFER --------------------------*/
+void	ft_draw_back(int width, int height, t_map *game);
+void	ft_draw_buffer(int width, int height, t_map *game);
+void	ft_buffer_clean(t_map *game, int w, int h);
+
+/*--------------------- PIXELS --------------------------*/
+int		ft_get_pixel(t_image *texture, int x, int y);
+void	ft_put_color_to_pixel(t_map *game, int x, int y, int color);
+
+/*--------------------- UTILS ---------------------------*/
+void	ft_orientation(t_map *game);
+void	ft_calc_text(t_texture *t, t_map *game, int line_heigth, int start);
+void	ft_buffer_fill(int start, int end, t_map *game, int x);
+void	ft_start_end(t_map *game, int x);
+void	ft_search_orientation(t_map *game);
+
+
+
+
+
 
 
 #endif

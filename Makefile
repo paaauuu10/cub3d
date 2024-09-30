@@ -29,7 +29,7 @@ SRCDIR = src/
 MLX = include/libx
 OBJDIR = obj/
 MINI = -L$(MLX) -lmlx -lXext -lX11 -lm  
-SRC_L = main.c map.c parser_aux.c movs.c exit.c map_read.c minimap.c minimap_aux.c player.c draw_map.c
+SRC_L = main.c map.c parser_aux.c movs.c utils.c exit.c map_read.c minimap.c minimap_aux.c player.c draw_map.c textures.c calc_and_draw.c buffer.c pixels.c
 SRC = $(addprefix $(SRCDIR), $(SRC_L))
 OBJECTS = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
