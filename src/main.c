@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:49:40 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/28 14:14:56 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:47:03 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	ft_create_image(t_map *game)
 {
-	game->img_p = mlx_new_image(game->mlx_p, screenWidth, screenHeight);
+	game->img_p = mlx_new_image(game->mlx_p, SCREENWIDTH, SCREENHEIGHT);
 	game->img_data = mlx_get_data_addr(game->img_p, &game->bpp, \
 	&game->size_line, &game->endian);
 }
@@ -77,7 +77,7 @@ int	main(int argc, char **argv)
 	ft_orientation(game);
 	ft_create_r_map(game);
 	game->mlx_p = mlx_init();
-	game->win_p = mlx_new_window(game->mlx_p, screenWidth, screenHeight, \
+	game->win_p = mlx_new_window(game->mlx_p, SCREENWIDTH, SCREENHEIGHT, \
 	"cub3d");
 	ft_init_textures(game);
 	ft_create_image(game);

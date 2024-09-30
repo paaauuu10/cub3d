@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:49:40 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/28 14:14:56 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:50:30 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ void	ft_calc_text(t_texture *t, t_map *game, int line_heigth, int start)
 	else
 		t->wall_x = game->posX + game->perpWallDist * game->rayDirX;
 	t->wall_x -= floor(t->wall_x);
-	t->x = (int)(t->wall_x * (double)texWidth);
+	t->x = (int)(t->wall_x * (double)TEXWIDTH);
 	if (game->side == 0 && game->rayDirX > 0)
-		t->x = texWidth - t->x - 1;
+		t->x = TEXWIDTH - t->x - 1;
 	if (game->side == 1 && game->rayDirY < 0)
-		t->x = texWidth - t->x - 1;
-	t->step = 1.0 * texHeight / line_heigth;
-	t->pos = (start - (screenHeight >> 1) + (line_heigth >> 1)) * t->step;
+		t->x = TEXWIDTH - t->x - 1;
+	t->step = 1.0 * TEXHEIGHT / line_heigth;
+	t->pos = (start - (SCREENHEIGHT >> 1) + (line_heigth >> 1)) * t->step;
 }
 
 void	ft_start_end(t_map *game, int x)
@@ -91,13 +91,13 @@ void	ft_start_end(t_map *game, int x)
 	int	draw_start;
 	int	draw_end;
 
-	line_heigth = (int)(screenHeight / game->perpWallDist);
-	draw_start = (-line_heigth >> 1) + (screenHeight >> 1);
+	line_heigth = (int)(SCREENHEIGHT / game->perpWallDist);
+	draw_start = (-line_heigth >> 1) + (SCREENHEIGHT >> 1);
 	if (draw_start < 0)
 		draw_start = 0;
-	draw_end = (line_heigth >> 1) + (screenHeight >> 1);
-	if (draw_end >= screenHeight)
-		draw_end = screenHeight - 1;
+	draw_end = (line_heigth >> 1) + (SCREENHEIGHT >> 1);
+	if (draw_end >= SCREENHEIGHT)
+		draw_end = SCREENHEIGHT - 1;
 	ft_calc_text(&game->tex, game, line_heigth, draw_start);
 	ft_buffer_fill(draw_start, draw_end, game, x);
 }

@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/06 09:46:20 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:54:38 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdint.h>
-#include <sys/time.h> // Para medir el tiempo
+# include <sys/time.h> // Para medir el tiempo
 
-# define screenWidth 	1280
-# define screenHeight 	960
-# define texWidth 		64
-# define texHeight 		64
+# define SCREENWIDTH 	1280
+# define SCREENHEIGHT 	960
+# define TEXWIDTH 		64
+# define TEXHEIGHT 		64
 # define N 0
 # define S 1
 # define W 2
@@ -38,11 +38,11 @@
 # define MINIMAP_OFFSET_X 10
 # define MINIMAP_OFFSET_Y 10
 
-typedef struct s_ColorRGB 
+typedef struct s_ColorRGB
 {
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
 }	t_ColorRGB;
 
 typedef struct s_texture
@@ -68,63 +68,58 @@ typedef struct s_image
 
 typedef struct s_map
 {
-	int		x;
-	int		y;
-	int		width;
-	int		height;
-	int		w_map;
-	int		h_map;
-	int		param;
-	int		fd;
-	int		i;
-	char	per;
-	char	**map_pos;
-	void	*mlx_p;
-	void	*win_p;
-	char	**map;
-	void	*player;
-	int		floor;
-	int		ceiling;
-	char	*n_wall;
-	char	*s_wall;
-	char	*e_wall;
-	char	*w_wall;
-	int		start_x;
-	int		start_y;
-	int		current_x;
-	int		current_y;
-	int		dir_x;
-	int		dir_y;
-	int		x_pos;
-	int		x_posl;
-	int		y_pos;
-	int		y_posl;
-    void *img_p;
-    char *img_data;
-    int bpp;
-    int size_line;
-    int endian;
-
+	int			x;
+	int			y;
+	int			width;
+	int			height;
+	int			w_map;
+	int			h_map;
+	int			param;
+	int			fd;
+	int			i;
+	char		per;
+	char		**map_pos;
+	void		*mlx_p;
+	void		*win_p;
+	char		**map;
+	void		*player;
+	int			floor;
+	int			ceil;
+	char		*n_wall;
+	char		*s_wall;
+	char		*e_wall;
+	char		*w_wall;
+	int			start_x;
+	int			start_y;
+	int			current_x;
+	int			current_y;
+	int			dir_x;
+	int			dir_y;
+	int			x_pos;
+	int			x_posl;
+	int			y_pos;
+	int			y_posl;
+	void		*img_p;
+	char		*img_data;
+	int			bpp;
+	int			size_line;
+	int			endian;
 	//afegides per dividir funcions
-	double	oldTime;
-	double	time;
-	double frameTime;
-	
+	double		oldTime;
+	double		time;
+	double		frameTime;
 	//x and y player's start positon
-	double	posX;
-	double	posY; 
-	
+	double		posX;
+	double		posY;
 	//initial direction vector
-	double	dirX; 
-	double	dirY;
-	
+	double		dirX;
+	double		dirY;
 	//the 2d raycaster version of camera plane
-	double	planeX;
-	double	planeY;
+	double		planeX;
+	double		planeY;
 
 	//x-coordinate in camera space
 	double		cameraX;
-
 	double		rayDirX;
 	double		rayDirY;
 
@@ -149,18 +144,17 @@ typedef struct s_map
 
 	// Velocidad de movimiento en cuadrados/segundo
 	double		moveSpeed;
-	
+
 	// Velocidad de rotación en radianes/segundo
 	double		rotSpeed;
-
 
 	double		perpWallDist;
 	t_ColorRGB	color;
 
 	char		**r_map;
-	int		map_coor;
+	int			map_coor;
 
-	uint32_t	buffer[screenHeight][screenWidth];
+	uint32_t	buffer[SCREENHEIGHT][SCREENWIDTH];
 	t_image		*texture[4];
 
 	int			texNum;
@@ -174,8 +168,6 @@ typedef struct s_map
 	void		*im;
 }	t_map;
 
-
-
 void	ft_parser(t_map *game);
 int		ft_isspace(char s);
 int		ft_line_bef(char **map, int i, int j);
@@ -188,7 +180,7 @@ int		calculate_start_x(t_map *game);
 int		calculate_start_y(t_map *game);
 void	draw_map(t_map *game);
 void	ft_draw_player(t_map *game, int flag);
-int		ft_obtain_color(t_map *game, char *s);
+int		ft_obtcolor(t_map *game, char *s);
 int		calc_width(t_map *game, char *s);
 int		handle_key(int keycode, t_map *game);
 void	game_loop(t_map	*game);
@@ -200,7 +192,7 @@ void	ft_first_image(t_map *game);
 void	ft_init_textures(t_map *game);
 
 /*--------------------- RAYCASTING ----------------------*/
-int	ft_draw_cub(t_map *game);
+int		ft_draw_cub(t_map *game);
 
 /*--------------------- BUFFER --------------------------*/
 void	ft_draw_back(int width, int height, t_map *game);
@@ -217,11 +209,5 @@ void	ft_calc_text(t_texture *t, t_map *game, int line_heigth, int start);
 void	ft_buffer_fill(int start, int end, t_map *game, int x);
 void	ft_start_end(t_map *game, int x);
 void	ft_search_orientation(t_map *game);
-
-
-
-
-
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:49:40 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/28 14:14:56 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:52:21 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_draw_back(int width, int height, t_map *game)
 		while (x < width)
 		{
 			if (y < (height >> 1))
-				color = game->ceiling;
+				color = game->ceil;
 			else
 				color = game->floor;
 			ft_put_color_to_pixel(game, x, y, color);
@@ -85,9 +85,9 @@ void	ft_buffer_fill(int start, int end, t_map *game, int x)
 	game->tex.num = game->hit_dir;
 	while (j < end)
 	{
-		game->tex.y = (int)game->tex.pos & (texHeight - 1);
+		game->tex.y = (int)game->tex.pos & (TEXHEIGHT - 1);
 		game->tex.pos += game->tex.step;
-		game->tex.x = (int)(game->tex.wall_x * (double)texWidth);
+		game->tex.x = (int)(game->tex.wall_x * (double)TEXWIDTH);
 		color = ft_get_pixel(game->texture[game->tex.num], \
 		game->tex.x, game->tex.y);
 		if (color < 0)

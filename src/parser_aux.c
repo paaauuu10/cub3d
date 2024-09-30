@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:31:38 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/05 11:10:21 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:36:00 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,43 +32,39 @@ int	ft_line_bef(char **map, int i, int j)
 	return (1);
 }
 
-int	ft_obtain_color(t_map *game, char *s)
+int	ft_get_color_component(t_map *game, char **s)
 {
-	int		i;
+	int	num;
+
+	num = 0;
+	while (ft_isspace(**s))
+		(*s)++;
+	while (ft_isdigit(**s) && **s != ',')
+		num = num * 10 + (*((*s)++) - '0');
+	if (**s != ',' && **s != ' ' && **s != '\n')
+		ft_exit(game, "The parameter is incorrect");
+	return (num);
+}
+
+int	ft_obtcolor(t_map *game, char *s)
+{
 	int		red;
 	int		green;
 	int		blue;
-	int		num;
+	char	*temp;
 
-	i = 1;
-	num = 0;
-	while (ft_isspace(s[i]))
-		i++;
-	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
-		num = num * 10 + (s[i++] - '0');
-	if (!s[i] || (!ft_isdigit(s[i]) && s[i] != ' ' && s[i] != ','))
+	temp = s;
+	s++;
+	red = ft_get_color_component(game, &s);
+	if (*s == ',')
+		s++;
+	green = ft_get_color_component(game, &s);
+	if (*s == ',')
+		s++;
+	blue = ft_get_color_component(game, &s);
+	if (*s != '\n')
 		ft_exit(game, "The parameter is incorrect");
-	red = num;
-	num = 0;
-	i++;
-	while (ft_isspace(s[i]))
-		i++;
-	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
-		num = num * 10 + (s[i++] - '0');
-	if (!s[i] || (!ft_isdigit(s[i]) && s[i] != ' ' && s[i] != ','))
-		ft_exit(game, "The parameter is incorrect");
-	green = num;
-	num = 0;
-	i++;
-	while (ft_isspace(s[i]))
-		i++;
-	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
-		num = num * 10 + (s[i++] - '0');
-	if (!ft_isdigit(s[i]) && s[i] != '\n')
-		ft_exit(game, "The parameter is incorrect");
-	blue = num;
-	num = 0;
-	return (free(s), red * 65536 + green * 256 + blue);
+	return (free(temp), red * 65536 + green * 256 + blue);
 }
 
 char	*ft_no_spaces(t_map *game, int k, char *param)

@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:49:40 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/28 14:14:56 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:51:31 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_calc_ray_pos_dir(t_map *game, int x)
 {
-	game->cameraX = 2 * x / (double)screenWidth - 1;
+	game->cameraX = 2 * x / (double)SCREENWIDTH - 1;
 	game->rayDirX = game->dirX + game->planeX * game->cameraX;
 	game->rayDirY = game->dirY + game->planeY * game->cameraX;
 	game->mapX = (int)game->posX;
@@ -94,10 +94,10 @@ int	ft_draw_cub(t_map *game)
 	int	w;
 	int	h;
 
-	w = screenWidth;
-	h = screenHeight;
+	w = SCREENWIDTH;
+	h = SCREENHEIGHT;
 	x = 0;
-	while (x < screenWidth)
+	while (x < SCREENWIDTH)
 	{
 		ft_calc_ray_pos_dir(game, x);
 		ft_ray_sidedists(game);
@@ -105,8 +105,8 @@ int	ft_draw_cub(t_map *game)
 		ft_start_end(game, x);
 		x++;
 	}
-	ft_draw_buffer(screenWidth, screenHeight, game);
+	ft_draw_buffer(SCREENWIDTH, SCREENHEIGHT, game);
 	mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0);
-	ft_buffer_clean(game, screenWidth, screenHeight);
+	ft_buffer_clean(game, SCREENWIDTH, SCREENHEIGHT);
 	return (0);
 }
