@@ -20,7 +20,7 @@ void printFPS(double frameTime)
     }
 }
 
-void createImage(t_map *game)
+void ft_create_image(t_map *game)
 {
 	game->img_p = mlx_new_image(game->mlx_p, screenWidth, screenHeight);
     game->img_data = mlx_get_data_addr(game->img_p, &game->bpp, &game->size_line, &game->endian);
@@ -49,7 +49,6 @@ void	hit_loop(t_map	*game)
 
 void	mlx_work_exec(t_map	*game)
 {
-		mlx_hook(game->win_p, 17, 0, mouse_hook, (void *)&game);
 		mlx_hook(game->win_p, 2, 1L<<0, handle_key, game);
 		mlx_loop(game->mlx_p);
 }
@@ -145,7 +144,7 @@ void	draw_back(int width, int height, t_map *game)
 	}
 	mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0);
 }
-void	draw_buffer(int width, int height, t_map *game)
+void	ft_draw_buffer(int width, int height, t_map *game)
 {
 	int	y;
 	int	x;
@@ -245,7 +244,7 @@ void	ft_init_textures(t_map *game)
 		i++;
 	}
 }
-void	ray_dir_and_pos(t_map *game, int x)
+void	ft_cal_ray_pos_dir(t_map *game, int x)
 {
 	game->cameraX = 2 * x / (double)screenWidth - 1;
 	game->rayDirX = game->dirX + game->planeX * game->cameraX;
@@ -268,7 +267,7 @@ void	ray_dir_and_pos(t_map *game, int x)
 	game->hit = 0;
 	game->side = 0;
 }
-void	ray_calc_sidedists(t_map *game)
+void	ft_ray_sidedists(t_map *game)
 {
 	if (game->rayDirX < 0)
 	{
@@ -308,7 +307,7 @@ void	search_orientation(t_map *game)
 			game->hit_dir = N;
 	}
 }
-void	ray_dda(t_map *game, char **map)
+void	ft_ray_dda(t_map *game, char **map)
 {
 	while (game->hit == 0)
 	{
@@ -336,7 +335,7 @@ void	ray_dda(t_map *game, char **map)
 		game->perpWallDist = game->sideDistY - game->deltaDistY;
 }
 
-void	calc_textures(t_texture *t, t_map *game, int line_heigth, int start)
+void	ft_calc_text(t_texture *t, t_map *game, int line_heigth, int start)
 {
 	t->num = game->r_map[game->mapY][game->mapX] - 1;
 	if (game->side == 0)
@@ -353,7 +352,7 @@ void	calc_textures(t_texture *t, t_map *game, int line_heigth, int start)
 	t->pos = (start - (screenHeight >> 1) /*/ 2*/ + (line_heigth >> 1) /*/ 2*/) * t->step;
 }
 
-void	fill_buffer(int start, int end, t_map *game, int x)
+void	ft_buffer_fill(int start, int end, t_map *game, int x)
 {
 	int	color;
 	int	j;
@@ -374,7 +373,7 @@ void	fill_buffer(int start, int end, t_map *game, int x)
 		j++;
 	}
 }
-void	prepare_draw_cub(t_map *game, int x)
+void	ft_start_end(t_map *game, int x)
 {
 	int	line_heigth;
 	int	draw_start;
@@ -387,10 +386,10 @@ void	prepare_draw_cub(t_map *game, int x)
 	draw_end = (line_heigth >> 1 ) /*/ 2*/ + (screenHeight >> 1) /*/ 2*/;
 	if (draw_end >= screenHeight)
 		draw_end = screenHeight - 1;
-	calc_textures(&game->tex, game, line_heigth, draw_start);
-	fill_buffer(draw_start, draw_end, game, x);
+	ft_calc_text(&game->tex, game, line_heigth, draw_start);
+	ft_buffer_fill(draw_start, draw_end, game, x);
 }
-void	clean_buffer(t_map *game, int w, int h)
+void	ft_buffer_clean(t_map *game, int w, int h)
 {
 	int	x;
 	int	y;
@@ -407,7 +406,7 @@ void	clean_buffer(t_map *game, int w, int h)
 		y++;
 	}
 }
-int	draw_cub(t_map *game)
+int	ft_draw_cub(t_map *game)
 {
 	int	x;
 	int	w;
@@ -418,19 +417,16 @@ int	draw_cub(t_map *game)
 	x = 0;
 	while (x < screenWidth)
 	{
-		ray_dir_and_pos(game, x);
-		ray_calc_sidedists(game);
-		ray_dda(game, game->r_map);
-		prepare_draw_cub(game, x);
+		ft_cal_ray_pos_dir(game, x);
+		ft_ray_sidedists(game);
+		ft_ray_dda(game, game->r_map);
+		ft_start_end(game, x);
 		x++;
 	}
-	draw_buffer(screenWidth, screenHeight, game);
+	ft_draw_buffer(screenWidth, screenHeight, game);
 	mlx_put_image_to_window(game->mlx_p, game->win_p, game->img_p, 0, 0);
-	clean_buffer(game, screenWidth, screenHeight);
-	//mlx_clear_window(game->mlx_p, game->win_p);
-	/*cub->ray.move_speed = MOVE_SPEED;
-	cub->ray.rot_speed = ROT_SPEED;*/
-	return (0); //revisar
+	ft_buffer_clean(game, screenWidth, screenHeight);
+	return (0);
 }
 int	main(int argc, char **argv)
 {
@@ -440,8 +436,8 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return(1);
 	ft_bzero( game, sizeof(t_map));
-	map_reading( game, argv);
-	parser( game);
+	ft_map_reading( game, argv);
+	ft_parser( game);
 	int i = 0;
 	int j = 0;
 	 game->oldTime = getTicks(); // revisar
@@ -479,7 +475,7 @@ int	main(int argc, char **argv)
 	 game->mlx_p = mlx_init();
 	 game->win_p = mlx_new_window( game->mlx_p, screenWidth, screenHeight, "cub3d");
 	ft_init_textures( game);
-	createImage( game);
+	ft_create_image( game);
 	int	width = 1280;
 	int	height = 960;
 	void	*im;

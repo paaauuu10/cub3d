@@ -51,7 +51,7 @@ int	add_lines(t_map *game, char *line)
 	return (1);
 }
 
-int	map_reading(t_map *game, char **s)
+int	ft_map_reading(t_map *game, char **s)
 {
 	char	*line;
 

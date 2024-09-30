@@ -73,78 +73,9 @@ int handle_key(int keycode, t_map *game)
     else if (keycode == 65307)  // 53 es el código de la tecla ESC en MinilibX
         ft_exit(game, "No puede ser que quieras dejar de jugar");
     //mlx_clear_window(game->mlx_p, game->win_p);
-    draw_cub(game);
+    ft_draw_cub(game);
     draw_map(game);
     ft_draw_lines(game);
     ft_draw_player(game, 1);
     return 0;
-}
-
-/*int handle_key(int keycode, t_map *game)
-{
-    double moveSpeed = 0.05;  // Velocidad de movimiento
-    double rotSpeed = 0.05;   // Velocidad de rotación
-
-    // Movimiento hacia adelante (tecla W)
-    if (keycode == UP_KEY)
-    {
-        int newPosX = (int)(game->posX + game->dirX * moveSpeed);
-        int newPosY = (int)(game->posY + game->dirY * moveSpeed);
-
-        // Verificar que no hay una pared en la nueva posición
-        if (game->map_real[newPosX][(int)(game->posY)] == 0)
-            game->posX += game->dirX * moveSpeed;
-        if (game->map_real[(int)(game->posX)][newPosY] == 0)
-            game->posY += game->dirY * moveSpeed;
-    }
-
-    // Movimiento hacia atrás (tecla S)
-    if (keycode == DOWN_KEY)
-    {
-        int newPosX = (int)(game->posX - game->dirX * moveSpeed);
-        int newPosY = (int)(game->posY - game->dirY * moveSpeed);
-
-        if (game->map_real[newPosX][(int)(game->posY)] == 0)
-            game->posX -= game->dirX * moveSpeed;
-        if (game->map_real[(int)(game->posX)][newPosY] == 0)
-            game->posY -= game->dirY * moveSpeed;
-    }
-
-    // Rotar a la derecha (tecla D)
-    if (keycode == RIGHT_KEY)
-    {
-        double oldDirX = game->dirX;
-        game->dirX = game->dirX * cos(-rotSpeed) - game->dirY * sin(-rotSpeed);
-        game->dirY = oldDirX * sin(-rotSpeed) + game->dirY * cos(-rotSpeed);
-
-        double oldPlaneX = game->planeX;
-        game->planeX = game->planeX * cos(-rotSpeed) - game->planeY * sin(-rotSpeed);
-        game->planeY = oldPlaneX * sin(-rotSpeed) + game->planeY * cos(-rotSpeed);
-    }
-
-    // Rotar a la izquierda (tecla A)
-    if (keycode == LEFT_KEY)
-    {
-        double oldDirX = game->dirX;
-        game->dirX = game->dirX * cos(rotSpeed) - game->dirY * sin(rotSpeed);
-        game->dirY = oldDirX * sin(rotSpeed) + game->dirY * cos(rotSpeed);
-
-        double oldPlaneX = game->planeX;
-        game->planeX = game->planeX * cos(rotSpeed) - game->planeY * sin(rotSpeed);
-        game->planeY = oldPlaneX * sin(rotSpeed) + game->planeY * cos(rotSpeed);
-    }
-
-    // Cerrar el juego con la tecla ESC
-    if (keycode == ESC_KEY)
-        mlx_destroy_window(game->mlx_p, game->win_p);
-
-    return (0);
-}*/
-
-// Esta función se llamará cada vez que se presione una tecla
-int	mouse_hook(t_map *game)
-{
-	(void)game;
-	exit(0);
-	return (0);
 }

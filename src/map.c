@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:02:34 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/30 10:05:43 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/06 12:38:49 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	ft_parser_aux(t_map *game, int i, int j)
 		game->ceiling = ft_obtain_color(game, ft_strdup(ft_no_spaces(game, i, "C")));
 }
 
-void	parser(t_map *game)
+void	ft_parser(t_map *game)
 {
 	int	i;
 	int	j;
