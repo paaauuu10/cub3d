@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/06 09:46:20 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:06:50 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ int		calculate_start_x(t_map *game);
 int		calculate_start_y(t_map *game);
 void	draw_map(t_map *game);
 void	ft_draw_player(t_map *game, int flag);
-int		ft_obtain_color(char *s);
+int		ft_obtain_color(t_map *game, char *s);
 int		calc_width(t_map *game, char *s);
 int		handle_key(int keycode, t_map *game);
 void	game_loop(t_map	*game);

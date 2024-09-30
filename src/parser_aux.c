@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:31:38 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/05 11:10:21 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:19:00 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_line_bef(char **map, int i, int j)
 	return (1);
 }
 
-int	ft_obtain_color(char *s)
+int	ft_obtain_color(t_map *game, char *s)
 {
 	int		i;
 	int		red;
@@ -46,6 +46,8 @@ int	ft_obtain_color(char *s)
 		i++;
 	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
 		num = num * 10 + (s[i++] - '0');
+	if (!s[i] || (!ft_isdigit(s[i]) && s[i] != ' ' && s[i] != ','))
+		ft_exit(game, "The parameter is incorrect");
 	red = num;
 	num = 0;
 	i++;
@@ -53,6 +55,8 @@ int	ft_obtain_color(char *s)
 		i++;
 	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
 		num = num * 10 + (s[i++] - '0');
+	if (!s[i] || (!ft_isdigit(s[i]) && s[i] != ' ' && s[i] != ','))
+		ft_exit(game, "The parameter is incorrect");
 	green = num;
 	num = 0;
 	i++;
@@ -60,6 +64,8 @@ int	ft_obtain_color(char *s)
 		i++;
 	while (!ft_isspace(s[i]) && ft_isdigit(s[i]) && s[i] != ',')
 		num = num * 10 + (s[i++] - '0');
+	if (!ft_isdigit(s[i]) && s[i] != '\n')
+		ft_exit(game, "The parameter is incorrect");
 	blue = num;
 	num = 0;
 	return (free(s), red * 65536 + green * 256 + blue);

@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:02:34 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/06 12:38:49 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:05:43 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void	ft_parser_aux(t_map *game, int i, int j)
 		game->e_wall[k - 1] = '\0';
 	}
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "F ", 2))
-		game->floor = ft_obtain_color(ft_strdup(ft_no_spaces(game, i, "F")));
+		game->floor = ft_obtain_color(game, ft_strdup(ft_no_spaces(game, i, "F")));
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "C ", 2))
-		game->ceiling = ft_obtain_color(ft_strdup(ft_no_spaces(game, i, "C")));
+		game->ceiling = ft_obtain_color(game, ft_strdup(ft_no_spaces(game, i, "C")));
 }
 
 void	parser(t_map *game)
