@@ -6,7 +6,7 @@
 #    By: pborrull <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/22 14:17:08 by pborrull          #+#    #+#              #
-#    Updated: 2024/09/10 12:15:22 by pbotargu         ###   ########.fr        #
+#    Updated: 2024/10/01 10:04:51 by pborrull         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRCDIR = src/
 MLX = include/libx
 OBJDIR = obj/
 MINI = -L$(MLX) -lmlx -lXext -lX11 -lm  
-SRC_L = main.c map.c parser_aux.c movs.c utils.c exit.c map_read.c minimap.c minimap_aux.c player.c draw_map.c textures.c calc_and_draw.c buffer.c pixels.c
+SRC_L = main.c map.c parser_aux.c movs.c utils.c exit.c map_read.c minimap.c minimap_aux.c player.c draw_map.c textures.c calc_and_draw.c buffer.c pixels.c parser_aux2.c
 SRC = $(addprefix $(SRCDIR), $(SRC_L))
 OBJECTS = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 

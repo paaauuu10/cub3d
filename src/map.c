@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:02:34 by pborrull          #+#    #+#             */
-/*   Updated: 2024/10/01 09:42:04 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:31:08 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,22 @@ void	ft_parser_aux(t_map *game, int i, int j)
 {
 	if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "NO ", 3))
 	{
-		game->n_wall = ft_strdup(&(ft_no_spaces(game, i, "NO"))[3]);
+		game->n_wall = ft_textures(&(ft_no_spaces(game, i, "NO")[3]));
 		game->n_wall[ft_strlen(game->n_wall) - 1] = '\0';
 	}
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "SO ", 3))
 	{
-		game->s_wall = ft_strdup(&(ft_no_spaces(game, i, "SO"))[3]);
+		game->s_wall = ft_textures(&(ft_no_spaces(game, i, "SO")[3]));
 		game->s_wall[ft_strlen(game->s_wall) - 1] = '\0';
 	}
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "WE ", 3))
 	{
-		game->w_wall = ft_strdup(&(ft_no_spaces(game, i, "WE"))[3]);
+		game->w_wall = ft_textures(&(ft_no_spaces(game, i, "WE")[3]));
 		game->w_wall[ft_strlen(game->w_wall) - 1] = '\0';
 	}
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "EA ", 3))
 	{
-		game->e_wall = ft_strdup(&(ft_no_spaces(game, i, "EA"))[3]);
+		game->e_wall = ft_textures(&(ft_no_spaces(game, i, "EA")[3]));
 		game->e_wall[ft_strlen(game->e_wall) - 1] = '\0';
 	}
 	else if (game->map[i][j] && !ft_strncmp(&game->map[i][j], "F ", 2))

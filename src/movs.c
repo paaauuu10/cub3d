@@ -6,11 +6,17 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:46:24 by pborrull          #+#    #+#             */
-/*   Updated: 2024/10/01 09:44:06 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:30:26 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	mouse_hook(t_map *game)
+{
+	ft_exit(game, "No puede ser que quieras dejar de jugar.¡Vuelve aquí!");
+	return (1);
+}
 
 int	handle_rotation(int keycode, t_map *game, double rotS)
 {

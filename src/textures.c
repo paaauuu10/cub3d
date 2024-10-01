@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:29:47 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/09/10 11:30:52 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:33:00 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	ft_first_image(t_map *game)
 	height = 960;
 	game->im = mlx_xpm_file_to_image(game->mlx_p, "./Textures/portada.xpm", \
 	&width, &height);
+	if (!game->im)
+		ft_exit(game, "Uploading screen information");
 	mlx_put_image_to_window(game->mlx_p, game->win_p, game->im, 0, 0);
 }
 

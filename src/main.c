@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:49:40 by pborrull          #+#    #+#             */
-/*   Updated: 2024/10/01 09:38:25 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:25:04 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	main(int argc, char **argv)
 	ft_init_textures(game);
 	ft_create_image(game);
 	ft_first_image(game);
+	mlx_hook(game->win_p, 17, 0, mouse_hook, game);
 	mlx_hook(game->win_p, 2, 1L << 0, handle_key, game);
 	mlx_loop(game->mlx_p);
 	return (0);

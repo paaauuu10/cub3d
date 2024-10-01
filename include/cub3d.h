@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/10/01 09:34:10 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:29:24 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,5 +207,6 @@ void	ft_calc_text(t_texture *t, t_map *game, int line_heigth, int start);
 void	ft_buffer_fill(int start, int end, t_map *game, int x);
 void	ft_start_end(t_map *game, int x);
 void	ft_search_orientation(t_map *game);
+char	*ft_textures(char *s);
 
 #endif
