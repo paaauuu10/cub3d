@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:49:40 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/30 14:51:31 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:33:33 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,49 @@
 
 void	ft_calc_ray_pos_dir(t_map *game, int x)
 {
-	game->cameraX = 2 * x / (double)SCREENWIDTH - 1;
-	game->rayDirX = game->dirX + game->planeX * game->cameraX;
-	game->rayDirY = game->dirY + game->planeY * game->cameraX;
-	game->mapX = (int)game->posX;
-	game->mapY = (int)game->posY;
-	game->sideDistX = 0;
-	game->sideDistY = 0;
-	if (game->rayDirX == 0)
-		game->deltaDistX = 1e30;
+	game->camerax = 2 * x / (double)SCREENWIDTH - 1;
+	game->raydirx = game->dirx + game->planex * game->camerax;
+	game->raydiry = game->diry + game->planey * game->camerax;
+	game->mapx = (int)game->posx;
+	game->mapy = (int)game->posy;
+	game->sidedistx = 0;
+	game->sidedisty = 0;
+	if (game->raydirx == 0)
+		game->deltadistx = 1e30;
 	else
-		game->deltaDistX = fabs(1 / game->rayDirX);
-	if (game->rayDirY == 0)
-		game->deltaDistY = 1e30;
+		game->deltadistx = fabs(1 / game->raydirx);
+	if (game->raydiry == 0)
+		game->deltadisty = 1e30;
 	else
-		game->deltaDistY = fabs(1 / game->rayDirY);
-	game->perpWallDist = 0;
-	game->stepX = 0;
-	game->stepY = 0;
+		game->deltadisty = fabs(1 / game->raydiry);
+	game->perpwalldist = 0;
+	game->stepx = 0;
+	game->stepy = 0;
 	game->hit = 0;
 	game->side = 0;
 }
 
 void	ft_ray_sidedists(t_map *game)
 {
-	if (game->rayDirX < 0)
+	if (game->raydirx < 0)
 	{
-		game->stepX = -1;
-		game->sideDistX = (game->posX - game->mapX) * game->deltaDistX;
+		game->stepx = -1;
+		game->sidedistx = (game->posx - game->mapx) * game->deltadistx;
 	}
 	else
 	{
-		game->stepX = 1;
-		game->sideDistX = (game->mapX + 1 - game->posX) * game->deltaDistX;
+		game->stepx = 1;
+		game->sidedistx = (game->mapx + 1 - game->posx) * game->deltadistx;
 	}
-	if (game->rayDirY < 0)
+	if (game->raydiry < 0)
 	{
-		game->stepY = -1;
-		game->sideDistY = (game->posY - game->mapY) * game->deltaDistY;
+		game->stepy = -1;
+		game->sidedisty = (game->posy - game->mapy) * game->deltadisty;
 	}
 	else
 	{
-		game->stepY = 1;
-		game->sideDistY = (game->mapY + 1 - game->posY) * game->deltaDistY;
+		game->stepy = 1;
+		game->sidedisty = (game->mapy + 1 - game->posy) * game->deltadisty;
 	}
 }
 
@@ -64,28 +64,28 @@ void	ft_ray_dda(t_map *game, char **map)
 {
 	while (game->hit == 0)
 	{
-		if (game->sideDistX < game->sideDistY)
+		if (game->sidedistx < game->sidedisty)
 		{
-			game->sideDistX += game->deltaDistX;
-			game->mapX += game->stepX;
+			game->sidedistx += game->deltadistx;
+			game->mapx += game->stepx;
 			game->side = 0;
 		}
 		else
 		{
-			game->sideDistY += game->deltaDistY;
-			game->mapY += game->stepY;
+			game->sidedisty += game->deltadisty;
+			game->mapy += game->stepy;
 			game->side = 1;
 		}
-		if (map[game->mapY][game->mapX] == '1')
+		if (map[game->mapy][game->mapx] == '1')
 		{
 			game->hit = 1;
 			ft_search_orientation(game);
 		}
 	}
 	if (game->side == 0)
-		game->perpWallDist = game->sideDistX - game->deltaDistX;
+		game->perpwalldist = game->sidedistx - game->deltadistx;
 	else
-		game->perpWallDist = game->sideDistY - game->deltaDistY;
+		game->perpwalldist = game->sidedisty - game->deltadisty;
 }
 
 int	ft_draw_cub(t_map *game)

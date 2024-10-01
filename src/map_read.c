@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:49:40 by pborrull          #+#    #+#             */
-/*   Updated: 2024/08/28 14:14:56 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:42:34 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	add_lines(t_map *game, char *line)
 	game->height++;
 	temp = (char **)malloc((game->height + 1) * sizeof(char *));
 	if (!temp)
-		ft_exit(game, NULL);
+		ft_exit(game, "Malloc failed");
 	temp[game->height] = NULL;
 	while (i < game->height - 1)
 	{

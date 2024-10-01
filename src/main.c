@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:49:40 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/30 14:47:03 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:38:25 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void	ft_create_r_map(t_map *game)
 	j = 0;
 	game->r_map = (char **)malloc(game->height * sizeof(char *));
 	if (game->r_map == NULL)
-		printf("Null  game->r_map\n");
+		ft_exit(game, "Malloc failed");
 	i = 0;
 	while (i < game->height)
 	{
 		game->r_map[i] = (char *)malloc(game->width * sizeof(char) + 1);
 		if (game->r_map[i] == NULL)
-			printf(" game->r_map[i] == NULL\n");
+			ft_exit(game, "Malloc failed");
 		i++;
 	}
 	i = game->map_coor;
@@ -72,8 +72,8 @@ int	main(int argc, char **argv)
 	ft_bzero(game, sizeof(t_map));
 	ft_map_reading(game, argv);
 	ft_parser(game);
-	game->posX = game->x + 0.5;
-	game->posY = game->y + 0.5;
+	game->posx = game->x + 0.5;
+	game->posy = game->y + 0.5;
 	ft_orientation(game);
 	ft_create_r_map(game);
 	game->mlx_p = mlx_init();

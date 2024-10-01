@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:02:34 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/30 14:36:15 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:42:04 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	map_parser_aux(t_map *game, char **map, int i, int j)
 				|| ft_isspace(map[i - 1][j])) || !map[i + 1]
 				|| !(map[i + 1][j]) || ft_isspace(map[i + 1][j]))
 				&& (map[i][j] != '1' && !ft_isspace(map[i][j])))
-			ft_exit(game, "The map is invalid");
+			ft_exit(game, "The map is invalid.");
 		if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E'
 				|| map[i][j] == 'W')
 		{
@@ -62,12 +62,12 @@ void	map_parser(t_map *game, char **map)
 	{
 		j++;
 		if (map[0][j] && map[0][j] != '1' && !ft_isspace(map[0][j]))
-			ft_exit(game, "Bad first line");
+			ft_exit(game, "Bad first line.");
 	}
 	while (map[i])
 	{
 		if (map[i][0] != '1' && !ft_isspace(map[i][0]))
-			ft_exit(game, "The map is invalid-");
+			ft_exit(game, "The map is invalid.");
 		map_parser_aux(game, map, i, j);
 		i++;
 	}

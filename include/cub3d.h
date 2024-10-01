@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:58:47 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/30 14:54:38 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:34:10 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,50 +105,48 @@ typedef struct s_map
 	int			size_line;
 	int			endian;
 	//afegides per dividir funcions
-	double		oldTime;
 	double		time;
-	double		frameTime;
 	//x and y player's start positon
-	double		posX;
-	double		posY;
+	double		posx;
+	double		posy;
 	//initial direction vector
-	double		dirX;
-	double		dirY;
+	double		dirx;
+	double		diry;
 	//the 2d raycaster version of camera plane
-	double		planeX;
-	double		planeY;
+	double		planex;
+	double		planey;
 
 	//x-coordinate in camera space
-	double		cameraX;
-	double		rayDirX;
-	double		rayDirY;
+	double		camerax;
+	double		raydirx;
+	double		raydiry;
 
-	int			mapX;
-	int			mapY;
+	int			mapx;
+	int			mapy;
 
-	double		sideDistX;
-	double		sideDistY;
-	double		deltaDistX;
-	double		deltaDistY;
+	double		sidedistx;
+	double		sidedisty;
+	double		deltadistx;
+	double		deltadisty;
 
-	int			stepX;
-	int			stepY;
+	int			stepx;
+	int			stepy;
 
 	int			hit;
 	int			hit_dir;
 	int			side;
 
-	int			lineHeight;
-	int			drawStart;
-	int			drawEnd;
+	int			lineheight;
+	int			drawstart;
+	int			drawend;
 
 	// Velocidad de movimiento en cuadrados/segundo
-	double		moveSpeed;
+	double		movespeed;
 
 	// Velocidad de rotación en radianes/segundo
-	double		rotSpeed;
+	double		rotspeed;
 
-	double		perpWallDist;
+	double		perpwalldist;
 	t_ColorRGB	color;
 
 	char		**r_map;
@@ -157,12 +155,12 @@ typedef struct s_map
 	uint32_t	buffer[SCREENHEIGHT][SCREENWIDTH];
 	t_image		*texture[4];
 
-	int			texNum;
-	double		wallX;
-	int			texX;
-	int			texY;
+	int			texnum;
+	double		wallx;
+	int			texx;
+	int			texy;
 	double		step;
-	double		texPos;
+	double		texpos;
 	uint32_t	color_2;
 	t_texture	tex;
 	void		*im;

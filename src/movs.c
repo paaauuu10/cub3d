@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:46:24 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/30 14:35:06 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:44:06 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	handle_rotation(int keycode, t_map *game, double rotS)
 
 	if (keycode == 65361 || keycode == 65363)
 	{
-		olddirx = game->dirX;
-		oldplanex = game->planeX;
+		olddirx = game->dirx;
+		oldplanex = game->planex;
 		if (keycode == 65361)
 			rotS = -rotS;
-		game->dirX = game->dirX * cos(rotS) - game->dirY * sin(rotS);
-		game->dirY = olddirx * sin(rotS) + game->dirY * cos(rotS);
-		game->planeX = game->planeX * cos(rotS) - game->planeY * sin(rotS);
-		game->planeY = oldplanex * sin(rotS) + game->planeY * cos(rotS);
+		game->dirx = game->dirx * cos(rotS) - game->diry * sin(rotS);
+		game->diry = olddirx * sin(rotS) + game->diry * cos(rotS);
+		game->planex = game->planex * cos(rotS) - game->planey * sin(rotS);
+		game->planey = oldplanex * sin(rotS) + game->planey * cos(rotS);
 	}
 	return (0);
 }
@@ -37,19 +37,19 @@ int	handle_movement(int keycode, t_map *g, double moveS)
 	{
 		if (keycode == 115)
 			moveS = -moveS;
-		if (g->r_map[(int)(g->posY + g->dirY * moveS)][(int)g->posX] != '1')
-			g->posY += g->dirY * moveS;
-		if (g->r_map[(int)g->posY][(int)(g->posX + g->dirX * moveS)] != '1')
-			g->posX += g->dirX * moveS;
+		if (g->r_map[(int)(g->posy + g->diry * moveS)][(int)g->posx] != '1')
+			g->posy += g->diry * moveS;
+		if (g->r_map[(int)g->posy][(int)(g->posx + g->dirx * moveS)] != '1')
+			g->posx += g->dirx * moveS;
 	}
 	else if (keycode == 97 || keycode == 100)
 	{
 		if (keycode == 97)
 			moveS = -moveS;
-		if (g->r_map[(int)(g->posY + g->planeY * moveS)][(int)g->posX] != '1')
-			g->posY += g->planeY * moveS;
-		if (g->r_map[(int)g->posY][(int)(g->posX + g->planeX * moveS)] != '1')
-			g->posX += g->planeX * moveS;
+		if (g->r_map[(int)(g->posy + g->planey * moveS)][(int)g->posx] != '1')
+			g->posy += g->planey * moveS;
+		if (g->r_map[(int)g->posy][(int)(g->posy + g->planex * moveS)] != '1')
+			g->posx += g->planex * moveS;
 	}
 	return (0);
 }
@@ -66,7 +66,7 @@ int	handle_key(int keycode, t_map *game)
 	else if (keycode == 65361 || keycode == 65363)
 		handle_rotation(keycode, game, rotspeed);
 	else if (keycode == 65307)
-		ft_exit(game, "No puede ser que quieras dejar de jugar");
+		ft_exit(game, "No puede ser que quieras dejar de jugar.¡Vuelve aquí!");
 	ft_draw_cub(game);
 	draw_map(game);
 	ft_draw_lines(game);

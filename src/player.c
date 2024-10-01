@@ -6,7 +6,7 @@
 /*   By: pbotargu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:23:07 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/09/06 14:40:49 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:19:50 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	ft_draw_player(t_map *game, int flag)
 	int	mx;
 	int	my;
 
-	game->x_pos = game->posX * 32 + 7;
-	game->y_pos = game->posY * 32 + 7;
+	game->x_pos = game->posx * 32 + 7;
+	game->y_pos = game->posy * 32 + 7;
 	if (game->width > MINIMAP_SIZE)
 		mx = (game->x_pos -(game->start_x * TILE_SIZE)) + MINIMAP_OFFSET_X - 10;
 	else

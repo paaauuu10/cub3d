@@ -6,7 +6,7 @@
 /*   By: pborrull <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:31:38 by pborrull          #+#    #+#             */
-/*   Updated: 2024/09/30 14:36:00 by pborrull         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:44:57 by pborrull         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_get_color_component(t_map *game, char **s)
 	while (ft_isdigit(**s) && **s != ',')
 		num = num * 10 + (*((*s)++) - '0');
 	if (**s != ',' && **s != ' ' && **s != '\n')
-		ft_exit(game, "The parameter is incorrect");
+		ft_exit(game, "One parameter or more are incorrect");
 	return (num);
 }
 
@@ -63,7 +63,7 @@ int	ft_obtcolor(t_map *game, char *s)
 		s++;
 	blue = ft_get_color_component(game, &s);
 	if (*s != '\n')
-		ft_exit(game, "The parameter is incorrect");
+		ft_exit(game, "One parameter or more are incorrect");
 	return (free(temp), red * 65536 + green * 256 + blue);
 }
 
