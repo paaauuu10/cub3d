@@ -22,7 +22,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdint.h>
-# include <sys/time.h> // Para medir el tiempo
+# include <sys/time.h>
 
 # define SCREENWIDTH 	1280
 # define SCREENHEIGHT 	960
@@ -37,13 +37,6 @@
 # define MINIMAP_PIXEL_SIZE 192
 # define MINIMAP_OFFSET_X 10
 # define MINIMAP_OFFSET_Y 10
-
-typedef struct s_ColorRGB
-{
-	uint8_t	r;
-	uint8_t	g;
-	uint8_t	b;
-}	t_ColorRGB;
 
 typedef struct s_texture
 {
@@ -72,8 +65,6 @@ typedef struct s_map
 	int			y;
 	int			width;
 	int			height;
-	int			w_map;
-	int			h_map;
 	int			param;
 	int			fd;
 	int			i;
@@ -93,8 +84,6 @@ typedef struct s_map
 	int			start_y;
 	int			current_x;
 	int			current_y;
-	int			dir_x;
-	int			dir_y;
 	int			x_pos;
 	int			x_posl;
 	int			y_pos;
@@ -104,8 +93,6 @@ typedef struct s_map
 	int			bpp;
 	int			size_line;
 	int			endian;
-	//afegides per dividir funcions
-	double		time;
 	//x and y player's start positon
 	double		posx;
 	double		posy;
@@ -139,29 +126,11 @@ typedef struct s_map
 	int			lineheight;
 	int			drawstart;
 	int			drawend;
-
-	// Velocidad de movimiento en cuadrados/segundo
-	double		movespeed;
-
-	// Velocidad de rotación en radianes/segundo
-	double		rotspeed;
-
 	double		perpwalldist;
-	t_ColorRGB	color;
-
 	char		**r_map;
 	int			map_coor;
-
 	uint32_t	buffer[SCREENHEIGHT][SCREENWIDTH];
 	t_image		*texture[4];
-
-	int			texnum;
-	double		wallx;
-	int			texx;
-	int			texy;
-	double		step;
-	double		texpos;
-	uint32_t	color_2;
 	t_texture	tex;
 	void		*im;
 }	t_map;

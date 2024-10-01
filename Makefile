@@ -6,7 +6,7 @@
 #    By: pborrull <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/22 14:17:08 by pborrull          #+#    #+#              #
-#    Updated: 2024/10/01 10:04:51 by pborrull         ###   ########.fr        #
+#    Updated: 2024/10/01 10:35:30 by pbotargu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,12 +38,12 @@ all:
 	@make -C $(MLX) > /dev/null
 	@make $(NAME)
 
-$(OBJDIR)%.o: %.c  
+$(OBJDIR)%.o: %.c Makefile include/cub3d.h
 	@mkdir -p $(@D)
 	@clang $(CFLAGS) $(INCS) -c $< -o $@
 	@echo "$(GREEN)[OK]       $(CYAN)Compiled$(ORIGINAL)"
 
-$(NAME): $(OBJECTS) Makefile
+$(NAME): $(OBJECTS) 
 	@mkdir -p $(@D)
 	@cc $(CFLAGS) -o $@ $(OBJECTS) $(LIBFTA) $(MINI)
 	@echo  "$(GREEN)[OK]       $(YELLOW)All Compiled$(ORIGINAL)"
